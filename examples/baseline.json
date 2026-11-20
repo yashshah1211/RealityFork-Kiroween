@@ -1,0 +1,14 @@
+{
+  "modelId": "queue.mmc",
+  "modelVersion": "1.1.0",
+  "params": {
+    "servers": 2,
+    "arrivalRatePerHour": 1.6,
+    "serviceRatePerHour": 1,
+    "serverCostPerHour": 30,
+    "waitingCostPerHour": 20
+  },
+  "settings": { "warmup": 1000, "horizon": 11000 },
+  "seed": 1,
+  "replications": 30
+}

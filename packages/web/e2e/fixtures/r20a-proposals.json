@@ -1,0 +1,972 @@
+{
+  "bookstoreStartingBudget": {
+    "interpretation": "Opening a bookstore with the budget and the monthly rent you gave, comparing a physical shop with starting online first.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Open a physical shop",
+        "description": "You rent premises and open a shop that people can walk into.",
+        "settings": [
+          {
+            "variable": "shopFormat",
+            "value": "physical shop"
+          }
+        ]
+      },
+      {
+        "name": "Start online first",
+        "description": "You sell online first and decide on premises later.",
+        "settings": [
+          {
+            "variable": "shopFormat",
+            "value": "online first"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "shopFormat",
+        "label": "Shop format",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "physical shop",
+          "online first"
+        ],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "startingBudget",
+        "label": "Starting budget",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "What you can spend to get started."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Monthly rent",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What the premises cost each month."
+      }
+    ],
+    "questions": [
+      "Is the rent quoted with or without a deposit?"
+    ],
+    "formulas": [
+      {
+        "label": "Months of rent the budget covers",
+        "expression": "startingBudget / monthlyRent",
+        "unit": "months",
+        "condition": "",
+        "explanation": "The budget divided by one month of rent."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Open a physical shop",
+        "text": "Walk-in customers could build a regular local following",
+        "tone": "upside",
+        "about": [
+          "shopFormat"
+        ]
+      },
+      {
+        "branch": "Start online first",
+        "text": "Testing demand online could cost less than a lease",
+        "tone": "upside",
+        "about": [
+          "shopFormat"
+        ]
+      },
+      {
+        "branch": "Open a physical shop",
+        "text": "A long lease could be hard to leave if sales are slow",
+        "tone": "challenge",
+        "about": [
+          "monthlyRent"
+        ]
+      }
+    ],
+    "missingEvidence": [
+      "What similar premises nearby cost"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ]
+  },
+  "bookstoreMonthlyBudget": {
+    "interpretation": "Opening a bookstore with the budget and the monthly rent you gave, comparing a physical shop with starting online first.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Open a physical shop",
+        "description": "You rent premises and open a shop that people can walk into.",
+        "settings": [
+          {
+            "variable": "shopFormat",
+            "value": "physical shop"
+          }
+        ]
+      },
+      {
+        "name": "Start online first",
+        "description": "You sell online first and decide on premises later.",
+        "settings": [
+          {
+            "variable": "shopFormat",
+            "value": "online first"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "shopFormat",
+        "label": "Shop format",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "physical shop",
+          "online first"
+        ],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "monthlyBudget",
+        "label": "Monthly budget",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What you can spend on the shop each month."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Monthly rent",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What the premises cost each month."
+      }
+    ],
+    "questions": [
+      "Is the rent quoted with or without a deposit?"
+    ],
+    "formulas": [
+      {
+        "label": "Left each month after rent",
+        "expression": "monthlyBudget - monthlyRent",
+        "unit": "₹ per month",
+        "condition": "",
+        "explanation": "The monthly budget minus one month of rent."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Open a physical shop",
+        "text": "Walk-in customers could build a regular local following",
+        "tone": "upside",
+        "about": [
+          "shopFormat"
+        ]
+      },
+      {
+        "branch": "Start online first",
+        "text": "Testing demand online could cost less than a lease",
+        "tone": "upside",
+        "about": [
+          "shopFormat"
+        ]
+      }
+    ],
+    "missingEvidence": [
+      "What similar premises nearby cost"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ]
+  },
+  "studyMonths": {
+    "interpretation": "Studying for a stretch of months, comparing a longer daily routine with the current one.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Study three hours daily",
+        "description": "You lengthen your daily study time.",
+        "settings": []
+      },
+      {
+        "name": "Keep one hour daily",
+        "description": "You carry on with your current routine.",
+        "settings": [
+          {
+            "variable": "revisionStyle",
+            "value": "notes and summaries"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "studyHours",
+        "label": "Study hours per day",
+        "kind": "number",
+        "unit": "hours per day",
+        "options": [],
+        "why": "How long you study each day."
+      },
+      {
+        "key": "horizonMonths",
+        "label": "Months to study",
+        "kind": "number",
+        "unit": "months",
+        "options": [],
+        "why": "How long the plan runs."
+      },
+      {
+        "key": "revisionStyle",
+        "label": "Revision style",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "past papers",
+          "notes and summaries"
+        ],
+        "why": "How the study time is used."
+      }
+    ],
+    "questions": [
+      "How many subjects does this cover?"
+    ],
+    "formulas": [
+      {
+        "label": "Total study hours",
+        "expression": "studyHours * horizonMonths * 365 / 12",
+        "unit": "hours",
+        "condition": "",
+        "explanation": "Hours per day times the days in those months."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Study three hours daily",
+        "text": "More topics could be covered before the end",
+        "tone": "upside",
+        "about": [
+          "studyHours"
+        ]
+      },
+      {
+        "branch": "Keep one hour daily",
+        "text": "A steadier routine could leave room for other commitments",
+        "tone": "upside",
+        "about": [
+          "studyHours"
+        ]
+      },
+      {
+        "branch": "Keep one hour daily",
+        "text": "Some topics could be left for the final days",
+        "tone": "challenge",
+        "about": [
+          "studyHours",
+          "horizonMonths"
+        ]
+      }
+    ],
+    "missingEvidence": [
+      "How the marks are split between topics"
+    ],
+    "limitations": [
+      "Counts study time only, not how well the time is used."
+    ]
+  },
+  "relocation": {
+    "interpretation": "Moving to London compared with staying in Mumbai, with the rent you gave for London.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Move to London",
+        "description": "You move to London and rent a home there.",
+        "settings": [
+          {
+            "variable": "city",
+            "value": "London"
+          }
+        ]
+      },
+      {
+        "name": "Stay in Mumbai",
+        "description": "You keep living where you are.",
+        "settings": [
+          {
+            "variable": "city",
+            "value": "Mumbai"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "city",
+        "label": "Where you live",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "London",
+          "Mumbai"
+        ],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Monthly rent",
+        "kind": "number",
+        "unit": "£ per month",
+        "options": [],
+        "why": "What a home costs each month."
+      }
+    ],
+    "questions": [
+      "Is the rent for a shared home or your own?"
+    ],
+    "formulas": [
+      {
+        "label": "Rent over a year",
+        "expression": "monthlyRent * 12",
+        "unit": "£",
+        "condition": "",
+        "explanation": "One month of rent times twelve."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Move to London",
+        "text": "A new city could open new opportunities",
+        "tone": "upside",
+        "about": [
+          "city"
+        ]
+      },
+      {
+        "branch": "Stay in Mumbai",
+        "text": "Staying could keep your current support around you",
+        "tone": "upside",
+        "about": [
+          "city"
+        ]
+      }
+    ],
+    "missingEvidence": [
+      "What homes in the area cost"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ]
+  },
+  "bookstoreOrNot": {
+    "interpretation": "Opening a bookstore with the budget and the monthly rent you gave, compared with not opening it.",
+    "contextQuestions": [],
+    "missingEvidence": [
+      "What similar costs look like nearby"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ],
+    "branches": [
+      {
+        "name": "Open the bookstore",
+        "description": "You rent premises and open the shop.",
+        "settings": [
+          {
+            "variable": "openShop",
+            "value": "yes"
+          }
+        ]
+      },
+      {
+        "name": "Don't open it",
+        "description": "You keep things as they are.",
+        "settings": [
+          {
+            "variable": "openShop",
+            "value": "no"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "openShop",
+        "label": "Open the shop",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "startingBudget",
+        "label": "Starting budget",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "What you can spend to get started."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Monthly rent",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What the premises cost each month."
+      }
+    ],
+    "questions": [
+      "Is the rent quoted with or without a deposit?"
+    ],
+    "formulas": [
+      {
+        "label": "Months of rent the budget covers",
+        "expression": "startingBudget / monthlyRent",
+        "unit": "months",
+        "condition": "",
+        "explanation": "The budget divided by one month of rent."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Open the bookstore",
+        "text": "A shop of your own to shape",
+        "tone": "upside",
+        "about": [
+          "openShop"
+        ]
+      },
+      {
+        "branch": "Don't open it",
+        "text": "Your savings stay available for something else",
+        "tone": "upside",
+        "about": [
+          "startingBudget"
+        ]
+      }
+    ]
+  },
+  "startupOrNot": {
+    "interpretation": "Starting a company with the savings and the office cost you gave, compared with staying employed.",
+    "contextQuestions": [],
+    "missingEvidence": [
+      "What similar costs look like nearby"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ],
+    "branches": [
+      {
+        "name": "Start the company",
+        "description": "You leave your job and start the company.",
+        "settings": [
+          {
+            "variable": "path",
+            "value": "company"
+          }
+        ]
+      },
+      {
+        "name": "Stay employed",
+        "description": "You carry on in your current job.",
+        "settings": [
+          {
+            "variable": "path",
+            "value": "employed"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "path",
+        "label": "Working path",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "company",
+          "employed"
+        ],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "savings",
+        "label": "Savings",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "What you have put aside."
+      },
+      {
+        "key": "officeCost",
+        "label": "Monthly office cost",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What an office would cost each month."
+      }
+    ],
+    "questions": [
+      "Would you work from home at first?"
+    ],
+    "formulas": [
+      {
+        "label": "Months of office cost the savings cover",
+        "expression": "savings / officeCost",
+        "unit": "months",
+        "condition": "",
+        "explanation": "The savings divided by one month of office cost."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Start the company",
+        "text": "More say over how the work is done",
+        "tone": "upside",
+        "about": [
+          "path"
+        ]
+      },
+      {
+        "branch": "Stay employed",
+        "text": "A steady income while you decide",
+        "tone": "upside",
+        "about": [
+          "path"
+        ]
+      }
+    ]
+  },
+  "housing": {
+    "interpretation": "Renting a flat compared with buying one, with the savings and the monthly costs you gave.",
+    "contextQuestions": [],
+    "missingEvidence": [
+      "What similar costs look like nearby"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ],
+    "branches": [
+      {
+        "name": "Rent a flat",
+        "description": "You rent a flat and pay a landlord each month.",
+        "settings": [
+          {
+            "variable": "tenure",
+            "value": "renting"
+          }
+        ]
+      },
+      {
+        "name": "Buy a flat",
+        "description": "You buy a flat with a loan.",
+        "settings": [
+          {
+            "variable": "tenure",
+            "value": "owning"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "tenure",
+        "label": "How you live",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "renting",
+          "owning"
+        ],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "savings",
+        "label": "Savings",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "What you have put aside."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Monthly rent",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What renting costs each month."
+      },
+      {
+        "key": "monthlyLoan",
+        "label": "Monthly loan payment",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What the loan costs each month."
+      }
+    ],
+    "questions": [
+      "How long would you stay in the flat?"
+    ],
+    "formulas": [],
+    "possibilities": [
+      {
+        "branch": "Rent a flat",
+        "text": "Moving later could stay easy",
+        "tone": "upside",
+        "about": [
+          "monthlyRent"
+        ]
+      },
+      {
+        "branch": "Buy a flat",
+        "text": "The payment could stay fixed while rents change",
+        "tone": "upside",
+        "about": [
+          "monthlyLoan"
+        ]
+      }
+    ]
+  },
+  "bookstoreTwoWaysOrNot": {
+    "interpretation": "Opening a bookstore in one of two ways, or not opening it, with the budget and the monthly rent you gave.",
+    "contextQuestions": [],
+    "missingEvidence": [
+      "What similar costs look like nearby"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ],
+    "branches": [
+      {
+        "name": "Open a street shop",
+        "description": "You rent premises and open a shop that people can walk into.",
+        "settings": [
+          {
+            "variable": "openShop",
+            "value": "yes"
+          },
+          {
+            "variable": "shopFormat",
+            "value": "street shop"
+          }
+        ]
+      },
+      {
+        "name": "Don't open it",
+        "description": "You keep things as they are.",
+        "settings": [
+          {
+            "variable": "openShop",
+            "value": "no"
+          }
+        ]
+      },
+      {
+        "name": "Open an online shop",
+        "description": "You sell online and decide on premises later.",
+        "settings": [
+          {
+            "variable": "openShop",
+            "value": "yes"
+          },
+          {
+            "variable": "shopFormat",
+            "value": "online shop"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "openShop",
+        "label": "Open the shop",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "shopFormat",
+        "label": "Shop format",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "street shop",
+          "online shop"
+        ],
+        "why": "How the shop would reach customers."
+      },
+      {
+        "key": "startingBudget",
+        "label": "Starting budget",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "What you can spend to get started."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Monthly rent",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What the premises cost each month."
+      }
+    ],
+    "questions": [
+      "Is the rent quoted with or without a deposit?"
+    ],
+    "formulas": [
+      {
+        "label": "Months of rent the budget covers",
+        "expression": "startingBudget / monthlyRent",
+        "unit": "months",
+        "condition": "",
+        "explanation": "The budget divided by one month of rent."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Open a street shop",
+        "text": "Walk-in customers could discover the shop",
+        "tone": "upside",
+        "about": [
+          "shopFormat"
+        ]
+      },
+      {
+        "branch": "Open a street shop",
+        "text": "The rent could be a strain in slow months",
+        "tone": "challenge",
+        "about": [
+          "monthlyRent"
+        ]
+      },
+      {
+        "branch": "Don't open it",
+        "text": "Your savings stay available for something else",
+        "tone": "upside",
+        "about": [
+          "startingBudget"
+        ]
+      },
+      {
+        "branch": "Don't open it",
+        "text": "You may keep wondering about the shop",
+        "tone": "uncertain",
+        "about": [
+          "openShop"
+        ]
+      },
+      {
+        "branch": "Open an online shop",
+        "text": "Customers could find you without a street",
+        "tone": "upside",
+        "about": [
+          "shopFormat"
+        ]
+      },
+      {
+        "branch": "Open an online shop",
+        "text": "Building an audience could take time",
+        "tone": "challenge",
+        "about": []
+      }
+    ]
+  },
+  "quitCafe": {
+    "interpretation": "Leaving a salaried software job to run a café, compared with a weekend café while still employed and with staying in the job.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Full-time café",
+        "description": "You leave the software job and run the café every day.",
+        "settings": [
+          {
+            "variable": "openCafe",
+            "value": "yes"
+          },
+          {
+            "variable": "workArrangement",
+            "value": "café only"
+          }
+        ]
+      },
+      {
+        "name": "Part-time café",
+        "description": "You keep the software job and open the café at weekends.",
+        "settings": [
+          {
+            "variable": "openCafe",
+            "value": "yes"
+          },
+          {
+            "variable": "workArrangement",
+            "value": "job and weekend café"
+          }
+        ]
+      },
+      {
+        "name": "Stay in job",
+        "description": "You carry on in your current job and do not open a café.",
+        "settings": [
+          {
+            "variable": "openCafe",
+            "value": "no"
+          },
+          {
+            "variable": "workArrangement",
+            "value": "job only"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "openCafe",
+        "label": "Open the café",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "The decision being explored."
+      },
+      {
+        "key": "workArrangement",
+        "label": "Work arrangement",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "café only",
+          "job and weekend café",
+          "job only"
+        ],
+        "why": "How your working week is split."
+      },
+      {
+        "key": "monthlySalary",
+        "label": "Software job salary",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "Income from the job, where you keep it."
+      },
+      {
+        "key": "savings",
+        "label": "Savings",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "What you have put aside."
+      },
+      {
+        "key": "setupCost",
+        "label": "Café setup cost",
+        "kind": "number",
+        "unit": "₹",
+        "options": [],
+        "why": "The one-time cost of opening."
+      },
+      {
+        "key": "monthlyRent",
+        "label": "Café monthly rent",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "Rent for the café space."
+      },
+      {
+        "key": "cafeRevenue",
+        "label": "Café monthly revenue",
+        "kind": "number",
+        "unit": "₹ per month",
+        "options": [],
+        "why": "What the café sells in a month."
+      }
+    ],
+    "questions": [
+      "How many months of costs would you keep in reserve?"
+    ],
+    "formulas": [
+      {
+        "label": "Monthly income",
+        "expression": "monthlySalary + cafeRevenue - monthlyRent",
+        "unit": "₹ per month",
+        "condition": "",
+        "explanation": "Salary plus café sales, minus the café rent."
+      },
+      {
+        "label": "Savings left after setup",
+        "expression": "savings - setupCost",
+        "unit": "₹",
+        "condition": "",
+        "explanation": "What remains after paying to open."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Full-time café",
+        "text": "Running the café could become your main work",
+        "tone": "upside",
+        "about": [
+          "workArrangement"
+        ]
+      },
+      {
+        "branch": "Full-time café",
+        "text": "Months without a salary could strain your savings",
+        "tone": "challenge",
+        "about": [
+          "savings"
+        ]
+      },
+      {
+        "branch": "Part-time café",
+        "text": "You could test demand while keeping an income",
+        "tone": "upside",
+        "about": [
+          "workArrangement"
+        ]
+      },
+      {
+        "branch": "Part-time café",
+        "text": "Two roles could leave little time to rest",
+        "tone": "challenge",
+        "about": [
+          "workArrangement"
+        ]
+      },
+      {
+        "branch": "Stay in job",
+        "text": "Your income could stay steady",
+        "tone": "upside",
+        "about": [
+          "monthlySalary"
+        ]
+      },
+      {
+        "branch": "Stay in job",
+        "text": "The café idea would stay untested",
+        "tone": "challenge",
+        "about": [
+          "openCafe"
+        ]
+      }
+    ],
+    "missingEvidence": [
+      "Typical café sales in the area"
+    ],
+    "limitations": [
+      "Uses only the figures you gave."
+    ]
+  }
+}

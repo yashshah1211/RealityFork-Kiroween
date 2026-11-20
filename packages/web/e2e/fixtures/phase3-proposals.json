@@ -1,0 +1,122 @@
+{
+  "_about": "Phase 3 FIXTURES, not model output. Written by hand in the planner's format (Proposal, packages/core/src/reality/proposal.ts) and the fresh look's format (RevisitSuggestion, packages/core/src/reality/revisit.ts), and checked by validateProposal and validateRevisit through the real RealityStore in packages/web/src/reality/phase3.fixtures.test.ts. They are served by intercepting POST /api/plan and POST /api/revisit in e2e/phase3.spec.ts and docs/validation/full-experience/capture-phase3.mjs; nothing is sent to a provider. No fixture contains a number: every figure in the journeys is typed by the test, as a user would. gaming-first answers the question without context (it asks two optional questions); gaming-tailored answers it with the user's answers; cello is an unusual question with no kind of place (the open sky). gaming-revisit is a fresh look at one path: `reconsider` names suggestions by their text (`match`), and the test fills in their ids from the request it receives.",
+  "gaming-first": {
+    "interpretation": "You are thinking about leaving salaried work to make games independently. I compared building a first game on your own savings, building it with a publisher's support, and keeping your job while making games in your spare time.",
+    "contextQuestions": [
+      { "question": "What kind of games would you like to make?", "why": "The kind of game changes how big the team is and how long a first release takes.", "examples": ["Small story-driven games", "A mobile puzzle game", "Not sure yet"] },
+      { "question": "Would you start on your own or with other people?", "why": "Working alone or with others changes the costs and how the work is shared.", "examples": ["On my own", "With one or two friends", "Not decided"] }
+    ],
+    "branches": [
+      { "name": "Self-funded indie studio", "description": "Leave your job and build a first game on your savings, working from a rented studio.", "settings": [{ "variable": "funding", "value": "Own savings" }, { "variable": "workspace", "value": "Rented studio" }] },
+      { "name": "Publisher-backed team", "description": "Pitch a prototype and build the game with a publisher's advance, sharing a co-working office.", "settings": [{ "variable": "funding", "value": "Publisher advance" }, { "variable": "workspace", "value": "Co-working office" }] },
+      { "name": "Keep my job, make games at night", "description": "Stay employed and build the game in your spare time at home.", "settings": [{ "variable": "funding", "value": "Salary from my job" }, { "variable": "workspace", "value": "Spare room at home" }] }
+    ],
+    "variables": [
+      { "key": "funding", "label": "How the work is paid for", "kind": "category", "unit": "", "options": ["Own savings", "Publisher advance", "Salary from my job"], "why": "Decides how long you can work before the game earns anything." },
+      { "key": "workspace", "label": "Where the work happens", "kind": "category", "unit": "", "options": ["Rented studio", "Co-working office", "Spare room at home"], "why": "Changes monthly costs and how you work with other people." },
+      { "key": "monthlyCosts", "label": "Monthly costs", "kind": "number", "unit": "per month", "options": [], "why": "Rent, tools, licences and living costs while you build." },
+      { "key": "savings", "label": "Savings available", "kind": "number", "unit": "", "options": [], "why": "How long you can keep going without an income." },
+      { "key": "monthsToRelease", "label": "Months until the first release", "kind": "number", "unit": "months", "options": [], "why": "Most of the risk comes before the first game is out." },
+      { "key": "teamSize", "label": "Team size", "kind": "number", "unit": "people", "options": [], "why": "More people can shorten the work but raise the costs." }
+    ],
+    "questions": ["How many months of living costs do your savings cover?", "Would a publisher want to see a prototype first?", "Who could you work with?"],
+    "formulas": [
+      { "label": "Months the savings last", "expression": "savings / monthlyCosts", "unit": "months", "condition": "monthlyCosts > 0", "explanation": "Only counts savings against costs; any income from the game is left out." }
+    ],
+    "possibilities": [
+      { "branch": "Self-funded indie studio", "text": "Full creative control over the game", "tone": "upside", "about": ["funding"] },
+      { "branch": "Self-funded indie studio", "text": "Savings run out before the game is finished", "tone": "challenge", "about": ["savings", "monthlyCosts"] },
+      { "branch": "Publisher-backed team", "text": "Deadlines and milestones set by the publisher", "tone": "challenge", "about": ["funding"] },
+      { "branch": "Keep my job, make games at night", "text": "Slower progress with less financial pressure", "tone": "uncertain", "about": [] },
+      { "branch": "all", "text": "The first game earns less than hoped", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["Your savings and monthly costs", "A publisher's terms for a first game"],
+    "limitations": ["Sales, platform fees and taxes are not modelled."]
+  },
+  "gaming-tailored": {
+    "interpretation": "You would like to make small story-driven games and are thinking about leaving salaried work to do it. I compared building a first game on your own savings, building it with a publisher's support, and keeping your job while making games in your spare time.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Self-funded indie studio", "description": "Leave your job and build a first story-driven game on your savings, working from a rented studio.", "settings": [{ "variable": "funding", "value": "Own savings" }, { "variable": "workspace", "value": "Rented studio" }] },
+      { "name": "Publisher-backed team", "description": "Pitch a playable chapter and build the game with a publisher's advance, sharing a co-working office.", "settings": [{ "variable": "funding", "value": "Publisher advance" }, { "variable": "workspace", "value": "Co-working office" }] },
+      { "name": "Keep my job, make games at night", "description": "Stay employed and write and build the game in your spare time at home.", "settings": [{ "variable": "funding", "value": "Salary from my job" }, { "variable": "workspace", "value": "Spare room at home" }] }
+    ],
+    "variables": [
+      { "key": "funding", "label": "How the work is paid for", "kind": "category", "unit": "", "options": ["Own savings", "Publisher advance", "Salary from my job"], "why": "Decides how long you can work before the game earns anything." },
+      { "key": "workspace", "label": "Where the work happens", "kind": "category", "unit": "", "options": ["Rented studio", "Co-working office", "Spare room at home"], "why": "Changes monthly costs and how you work with other people." },
+      { "key": "monthlyCosts", "label": "Monthly costs", "kind": "number", "unit": "per month", "options": [], "why": "Rent, tools, licences and living costs while you build." },
+      { "key": "savings", "label": "Savings available", "kind": "number", "unit": "", "options": [], "why": "How long you can keep going without an income." },
+      { "key": "monthsToRelease", "label": "Months until the first release", "kind": "number", "unit": "months", "options": [], "why": "Writing, art and code all have to be finished before the first release." },
+      { "key": "teamSize", "label": "Team size", "kind": "number", "unit": "people", "options": [], "why": "More people can shorten the work but raise the costs." }
+    ],
+    "questions": ["How many months of living costs do your savings cover?", "Would a publisher want to see a playable chapter first?", "Who could write or draw with you?"],
+    "formulas": [
+      { "label": "Months the savings last", "expression": "savings / monthlyCosts", "unit": "months", "condition": "monthlyCosts > 0", "explanation": "Only counts savings against costs; any income from the game is left out." }
+    ],
+    "possibilities": [
+      { "branch": "Self-funded indie studio", "text": "Full creative control over the story and its world", "tone": "upside", "about": ["funding"] },
+      { "branch": "Self-funded indie studio", "text": "Savings run out before the game is finished", "tone": "challenge", "about": ["savings", "monthlyCosts"] },
+      { "branch": "Publisher-backed team", "text": "Deadlines and milestones set by the publisher", "tone": "challenge", "about": ["funding"] },
+      { "branch": "Publisher-backed team", "text": "Help with marketing and getting the game seen", "tone": "upside", "about": ["funding"] },
+      { "branch": "Keep my job, make games at night", "text": "Slower progress with less financial pressure", "tone": "uncertain", "about": [] },
+      { "branch": "all", "text": "Writing and art take longer than the code", "tone": "uncertain", "about": ["monthsToRelease"] }
+    ],
+    "missingEvidence": ["Your savings and monthly costs", "A publisher's terms for a first game"],
+    "limitations": ["Sales, platform fees and taxes are not modelled."]
+  },
+  "cello": {
+    "interpretation": "You are wondering what learning the cello later in life could be like. I compared weekly lessons with a teacher, teaching yourself at home and joining a group of adult beginners.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Weekly lessons with a teacher", "description": "Book a teacher and practise at home between lessons.", "settings": [{ "variable": "learningPath", "value": "With a teacher" }] },
+      { "name": "Teach myself at home", "description": "Rent a cello and learn from books and online videos.", "settings": [{ "variable": "learningPath", "value": "On my own" }] },
+      { "name": "Join a beginners' group", "description": "Learn alongside other adult beginners who meet once a week.", "settings": [{ "variable": "learningPath", "value": "In a group" }] }
+    ],
+    "variables": [
+      { "key": "learningPath", "label": "How you learn", "kind": "category", "unit": "", "options": ["With a teacher", "On my own", "In a group"], "why": "Changes how much guidance and company you have." },
+      { "key": "practiceHours", "label": "Practice time", "kind": "number", "unit": "hours per week", "options": [], "why": "Progress depends mostly on regular practice." },
+      { "key": "monthlyCost", "label": "Monthly cost of learning", "kind": "number", "unit": "per month", "options": [], "why": "Lessons, rental and sheet music add up over a year." },
+      { "key": "ownCello", "label": "Already own a cello", "kind": "boolean", "unit": "", "options": [], "why": "Renting or buying is a large first cost." }
+    ],
+    "questions": ["How much time could you practise each week?", "Is there a teacher or a group near you?"],
+    "formulas": [
+      { "label": "Yearly cost of learning", "expression": "monthlyCost * 12", "unit": "per year", "condition": "", "explanation": "Only the monthly cost you enter, over twelve months." }
+    ],
+    "possibilities": [
+      { "branch": "Weekly lessons with a teacher", "text": "Steady progress with feedback on technique", "tone": "upside", "about": ["learningPath"] },
+      { "branch": "Teach myself at home", "text": "Habits that are hard to unlearn later", "tone": "challenge", "about": ["learningPath"] },
+      { "branch": "Join a beginners' group", "text": "New friends who share the hobby", "tone": "upside", "about": ["learningPath"] },
+      { "branch": "all", "text": "Progress feels slower than hoped in the first months", "tone": "uncertain", "about": ["practiceHours"] }
+    ],
+    "missingEvidence": ["Teachers or groups near you and what they ask for"],
+    "limitations": ["How quickly you progress is not modelled."]
+  },
+  "gaming-revisit": {
+    "summary": "Because you entered your own savings and monthly costs, the pressure on this path now depends mostly on how long the first game takes.",
+    "reconsider": [
+      { "match": "Savings run out before the game is finished", "reason": "It was suggested before you entered your savings and monthly costs; whether they run out now depends on how long the first game takes." }
+    ],
+    "add": [
+      {
+        "text": "The first release could slip past the months your savings cover",
+        "trigger": "the game takes longer to finish than you planned",
+        "mechanism": "Your monthly costs keep running while the game earns nothing yet.",
+        "downstream": "A smaller first game or part-time work could become the way to keep going.",
+        "uncertainty": "How long the first game really takes, and whether any income arrives before release.",
+        "tone": "challenge",
+        "about": ["savings", "monthlyCosts", "monthsToRelease"]
+      },
+      {
+        "text": "Working from a spare room could keep monthly costs lower",
+        "trigger": "you do not need a rented studio for the first game",
+        "mechanism": "Rent for a workspace is one of the larger running costs while you build.",
+        "downstream": "Your savings could cover more months of work.",
+        "uncertainty": "Whether working at home suits you, and whether the people you work with need a shared space.",
+        "tone": "upside",
+        "about": ["workspace", "monthlyCosts"]
+      }
+    ],
+    "questions": ["Could you earn some income while the first game is in progress?", "How long did similar first games take other small studios?"],
+    "evidence": ["Release timelines of small first games like yours"]
+  }
+}

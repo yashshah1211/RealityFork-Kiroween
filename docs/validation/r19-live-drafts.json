@@ -1,0 +1,538 @@
+{
+  "recordedAt": "2026-11-10T13:22:28.174Z",
+  "model": "openai/gpt-oss-120b",
+  "keyPresent": true,
+  "note": "Written by packages/web/server/r19-live.ts. Real GroqCloud replies (free tier). The key and request headers are never recorded.",
+  "providerRequests": 2,
+  "budget": 2,
+  "calls": [
+    {
+      "n": 1,
+      "at": "2026-11-10T13:22:10.113Z",
+      "status": 200,
+      "ms": 2837,
+      "userMessage": "Situation: What if I opened a weekend bookstore with ₹20,000 per month in sales, ₹8,000 rent and ₹4,000 other monthly expenses?"
+    },
+    {
+      "n": 2,
+      "at": "2026-11-10T13:22:25.012Z",
+      "status": 200,
+      "ms": 3149,
+      "userMessage": "Situation: What if I studied two hours daily instead of one hour for exams four weeks away?"
+    }
+  ],
+  "results": [
+    {
+      "id": "A",
+      "question": "What if I opened a weekend bookstore with ₹20,000 per month in sales, ₹8,000 rent and ₹4,000 other monthly expenses?",
+      "ok": true,
+      "model": "openai/gpt-oss-120b",
+      "attempts": 1,
+      "ms": 2854,
+      "usage": {
+        "queue_time": 0.162186484,
+        "prompt_tokens": 1620,
+        "prompt_time": 0.092981125,
+        "completion_tokens": 1179,
+        "completion_time": 2.47748451,
+        "total_tokens": 2799,
+        "total_time": 2.570465635,
+        "completion_tokens_details": {
+          "reasoning_tokens": 141
+        }
+      },
+      "warnings": [],
+      "proposal": {
+        "interpretation": "You are considering starting a weekend bookstore and have rough monthly figures for sales, rent and other costs. I assumed these numbers are the main financial inputs you will later fill in.",
+        "contextQuestions": [],
+        "branches": [
+          {
+            "name": "Open Bookstore",
+            "description": "Launch the weekend bookstore as planned.",
+            "settings": [
+              {
+                "variable": "openStore",
+                "value": "yes"
+              }
+            ]
+          },
+          {
+            "name": "Do Not Open",
+            "description": "Stay with the current situation and do not start the store.",
+            "settings": [
+              {
+                "variable": "openStore",
+                "value": "no"
+              }
+            ]
+          },
+          {
+            "name": "Online Partner",
+            "description": "Run the bookstore only as a pop‑up partner with an existing online retailer.",
+            "settings": [
+              {
+                "variable": "openStore",
+                "value": "no"
+              },
+              {
+                "variable": "onlinePartner",
+                "value": "yes"
+              }
+            ]
+          }
+        ],
+        "variables": [
+          {
+            "key": "monthlySales",
+            "kind": "number",
+            "label": "Monthly sales",
+            "unit": "₹ per month",
+            "options": [],
+            "why": "Needed to calculate revenue."
+          },
+          {
+            "key": "monthlyRent",
+            "kind": "number",
+            "label": "Monthly rent",
+            "unit": "₹ per month",
+            "options": [],
+            "why": "Fixed cost of the physical space."
+          },
+          {
+            "key": "otherExpenses",
+            "kind": "number",
+            "label": "Other monthly expenses",
+            "unit": "₹ per month",
+            "options": [],
+            "why": "Covers utilities, supplies, etc."
+          },
+          {
+            "key": "openStore",
+            "kind": "boolean",
+            "label": "Opening the physical store",
+            "unit": "",
+            "options": [],
+            "why": "Determines whether the brick‑and‑mortar operation runs."
+          },
+          {
+            "key": "onlinePartner",
+            "kind": "boolean",
+            "label": "Partnering with an online retailer",
+            "unit": "",
+            "options": [],
+            "why": "Adds a low‑overhead sales channel."
+          }
+        ],
+        "questions": [
+          "How much startup capital can you invest before the first month?",
+          "How many hours per week can you devote to managing the store?",
+          "Do you have any existing inventory or will you need to purchase stock up front?",
+          "What is your target profit margin for the business?"
+        ],
+        "formulas": [
+          {
+            "label": "Monthly profit",
+            "expression": "monthlySales - (monthlyRent + otherExpenses)",
+            "unit": "₹ per month",
+            "condition": "",
+            "explanation": "Revenue minus the two main cost categories."
+          }
+        ],
+        "possibilities": [
+          {
+            "branch": "Open Bookstore",
+            "tone": "upside",
+            "text": "You attract a loyal community of readers and generate steady weekend cash flow.",
+            "about": [
+              "monthlySales"
+            ]
+          },
+          {
+            "branch": "Open Bookstore",
+            "tone": "challenge",
+            "text": "Rent and other expenses exceed sales, leading to a monthly loss.",
+            "about": [
+              "monthlyRent",
+              "otherExpenses"
+            ]
+          },
+          {
+            "branch": "Do Not Open",
+            "tone": "upside",
+            "text": "You avoid any financial risk and can allocate resources to other projects.",
+            "about": []
+          },
+          {
+            "branch": "Do Not Open",
+            "tone": "challenge",
+            "text": "You miss out on potential community building and revenue from book lovers.",
+            "about": [
+              "monthlySales"
+            ]
+          },
+          {
+            "branch": "Online Partner",
+            "tone": "upside",
+            "text": "Low overhead lets you keep more of each sale, improving profitability.",
+            "about": [
+              "otherExpenses"
+            ]
+          },
+          {
+            "branch": "Online Partner",
+            "tone": "challenge",
+            "text": "Limited physical presence may reduce foot traffic and brand visibility.",
+            "about": [
+              "monthlySales"
+            ]
+          }
+        ],
+        "missingEvidence": [
+          "Exact amount of startup capital you can allocate.",
+          "Projected foot traffic for the weekend location.",
+          "Cost of initial inventory purchase.",
+          "Terms and fees of any online partnership."
+        ],
+        "limitations": [
+          "Only monthly financial variables are considered; seasonal swings are ignored.",
+          "Assumes rent and other expenses stay constant.",
+          "Does not model competition or market saturation."
+        ]
+      },
+      "figureReading": {
+        "variables": [
+          {
+            "key": "monthlySales",
+            "label": "Monthly sales",
+            "kind": "number",
+            "unit": "₹ per month"
+          },
+          {
+            "key": "monthlyRent",
+            "label": "Monthly rent",
+            "kind": "number",
+            "unit": "₹ per month"
+          },
+          {
+            "key": "otherExpenses",
+            "label": "Other monthly expenses",
+            "kind": "number",
+            "unit": "₹ per month"
+          },
+          {
+            "key": "openStore",
+            "label": "Opening the physical store",
+            "kind": "boolean",
+            "unit": ""
+          },
+          {
+            "key": "onlinePartner",
+            "label": "Partnering with an online retailer",
+            "kind": "boolean",
+            "unit": ""
+          }
+        ],
+        "futures": [
+          "Open Bookstore",
+          "Do Not Open",
+          "Online Partner"
+        ],
+        "figureRows": [
+          {
+            "words": "₹20,000 per month in sales",
+            "value": 20000,
+            "goesTo": "Monthly sales",
+            "unit": "₹ per month",
+            "status": "clear",
+            "tickedByDefault": true,
+            "target": "open",
+            "notes": [],
+            "candidates": [
+              "Monthly sales"
+            ],
+            "blocked": null
+          },
+          {
+            "words": "₹8,000 rent",
+            "value": 8000,
+            "goesTo": "Monthly rent",
+            "unit": "₹ per month",
+            "status": "clear",
+            "tickedByDefault": true,
+            "target": "open",
+            "notes": [
+              "Your question gives per month for the other amounts, not this one."
+            ],
+            "candidates": [
+              "Monthly rent"
+            ],
+            "blocked": null
+          },
+          {
+            "words": "₹4,000 other monthly expenses",
+            "value": 4000,
+            "goesTo": "Other monthly expenses",
+            "unit": "₹ per month",
+            "status": "clear",
+            "tickedByDefault": true,
+            "target": "open",
+            "notes": [],
+            "candidates": [
+              "Other monthly expenses"
+            ],
+            "blocked": null
+          }
+        ],
+        "notUsed": [],
+        "planReady": true,
+        "planProblem": null,
+        "afterDefaultConfirmation": {
+          "appliedValues": {
+            "Monthly sales": 20000,
+            "Monthly rent": 8000,
+            "Other monthly expenses": 4000
+          },
+          "openedFuture": "Open Bookstore",
+          "calculated": [
+            {
+              "label": "Monthly profit",
+              "status": "ok",
+              "value": 8000
+            }
+          ],
+          "stillUnknown": []
+        }
+      }
+    },
+    {
+      "id": "B",
+      "question": "What if I studied two hours daily instead of one hour for exams four weeks away?",
+      "ok": true,
+      "model": "openai/gpt-oss-120b",
+      "attempts": 1,
+      "ms": 3153,
+      "usage": {
+        "queue_time": 0.775397055,
+        "prompt_tokens": 1606,
+        "prompt_time": 0.085461718,
+        "completion_tokens": 1021,
+        "completion_time": 2.152423168,
+        "total_tokens": 2627,
+        "total_time": 2.237884886,
+        "completion_tokens_details": {
+          "reasoning_tokens": 90
+        }
+      },
+      "warnings": [
+        "Left out invalid AI-suggested formulas."
+      ],
+      "proposal": {
+        "interpretation": "You are considering changing your daily study time from one hour to two hours while your exam is four weeks away. I assumed the focus is on how the amount of daily study affects preparation.",
+        "contextQuestions": [],
+        "branches": [
+          {
+            "name": "Stay at one hour",
+            "description": "Continue studying one hour each day.",
+            "settings": [
+              {
+                "variable": "dailyStudyHours",
+                "value": "one"
+              }
+            ]
+          },
+          {
+            "name": "Increase to two hours",
+            "description": "Study two hours each day.",
+            "settings": [
+              {
+                "variable": "dailyStudyHours",
+                "value": "two"
+              }
+            ]
+          },
+          {
+            "name": "No regular study",
+            "description": "Stop daily study and rely on last‑minute review.",
+            "settings": [
+              {
+                "variable": "dailyStudyHours",
+                "value": "none"
+              }
+            ]
+          }
+        ],
+        "variables": [
+          {
+            "key": "dailyStudyHours",
+            "kind": "category",
+            "label": "Daily study time",
+            "options": [
+              "none",
+              "one",
+              "two"
+            ],
+            "unit": "",
+            "why": "The amount of time you study each day drives total preparation."
+          },
+          {
+            "key": "weeksUntilExam",
+            "kind": "number",
+            "label": "Weeks until exam",
+            "options": [],
+            "unit": "weeks",
+            "why": "The time left determines how many study sessions you can have."
+          },
+          {
+            "key": "examDifficulty",
+            "kind": "category",
+            "label": "Exam difficulty",
+            "options": [
+              "easy",
+              "moderate",
+              "hard"
+            ],
+            "unit": "",
+            "why": "Harder exams typically need more study time."
+          }
+        ],
+        "questions": [
+          "How many weeks remain until the exam?",
+          "How would you rate the difficulty of the exam?",
+          "Do you have other commitments that might limit study time?"
+        ],
+        "formulas": [],
+        "possibilities": [
+          {
+            "branch": "stay at one hour",
+            "tone": "upside",
+            "text": "You keep a manageable routine and avoid burnout.",
+            "about": [
+              "dailyStudyHours"
+            ]
+          },
+          {
+            "branch": "stay at one hour",
+            "tone": "challenge",
+            "text": "You may not cover all material if the exam is hard.",
+            "about": [
+              "examDifficulty"
+            ]
+          },
+          {
+            "branch": "increase to two hours",
+            "tone": "upside",
+            "text": "You gain extra practice and deeper understanding.",
+            "about": [
+              "dailyStudyHours"
+            ]
+          },
+          {
+            "branch": "increase to two hours",
+            "tone": "challenge",
+            "text": "Longer daily sessions could lead to fatigue or reduced focus.",
+            "about": [
+              "dailyStudyHours"
+            ]
+          },
+          {
+            "branch": "no regular study",
+            "tone": "upside",
+            "text": "You free up time for other responsibilities.",
+            "about": [
+              "dailyStudyHours"
+            ]
+          },
+          {
+            "branch": "no regular study",
+            "tone": "challenge",
+            "text": "Cramming may leave gaps in knowledge and increase stress.",
+            "about": [
+              "examDifficulty"
+            ]
+          },
+          {
+            "branch": "all",
+            "tone": "uncertain",
+            "text": "Your actual performance will also depend on study quality and prior knowledge.",
+            "about": []
+          }
+        ],
+        "missingEvidence": [
+          "Current level of mastery of the subject",
+          "Typical study methods you use",
+          "Availability of study resources"
+        ],
+        "limitations": [
+          "Only daily study time is varied; study quality is not modeled.",
+          "Assumes a linear relationship between hours and preparation.",
+          "Does not account for unexpected events that could disrupt study."
+        ]
+      },
+      "figureReading": {
+        "variables": [
+          {
+            "key": "dailyStudyHours",
+            "label": "Daily study time",
+            "kind": "category",
+            "unit": ""
+          },
+          {
+            "key": "weeksUntilExam",
+            "label": "Weeks until exam",
+            "kind": "number",
+            "unit": "weeks"
+          },
+          {
+            "key": "examDifficulty",
+            "label": "Exam difficulty",
+            "kind": "category",
+            "unit": ""
+          }
+        ],
+        "futures": [
+          "Stay at one hour",
+          "Increase to two hours",
+          "No regular study"
+        ],
+        "figureRows": [
+          {
+            "words": "exams four weeks away",
+            "value": 4,
+            "goesTo": "Weeks until exam",
+            "unit": "weeks",
+            "status": "clear",
+            "tickedByDefault": true,
+            "target": "open",
+            "notes": [],
+            "candidates": [
+              "Weeks until exam"
+            ],
+            "blocked": null
+          }
+        ],
+        "notUsed": [
+          {
+            "text": "studied two hours daily",
+            "why": "none of this draft's number assumptions fits it; “Daily study time” is a choice in this draft, not a number"
+          },
+          {
+            "text": "one hour for exams",
+            "why": "none of this draft's number assumptions fits it; “Daily study time” is a choice in this draft, not a number"
+          }
+        ],
+        "planReady": true,
+        "planProblem": null,
+        "afterDefaultConfirmation": {
+          "appliedValues": {
+            "Weeks until exam": 4
+          },
+          "openedFuture": "Stay at one hour",
+          "calculated": [],
+          "stillUnknown": []
+        }
+      }
+    }
+  ],
+  "figureReadingRecomputedAt": "2026-11-10T18:04:53.398Z",
+  "figureReadingNote": "figureReading was recomputed from the saved replies by packages/web/server/r19-live-reread.ts with the final code. No provider was contacted; proposal, calls and usage are exactly as recorded."
+}

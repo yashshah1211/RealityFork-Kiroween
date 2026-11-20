@@ -1,0 +1,293 @@
+{
+  "schema": "realityfork.realities/1",
+  "realities": [
+    {
+      "schema": "realityfork.reality/1",
+      "id": "id1",
+      "question": "What if I started my own restaurant?",
+      "description": "You are considering opening your own restaurant. I assumed a small independent place and that you would compare opening it with keeping your current situation.",
+      "questions": [
+        "How much could you sell per month in your area?",
+        "What would rent and ingredients cost?",
+        "How much money can you put in before opening?"
+      ],
+      "variables": [
+        {
+          "key": "format",
+          "label": "Type of place",
+          "kind": "category",
+          "unit": "",
+          "options": [
+            "café",
+            "full restaurant"
+          ],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "The format changes almost every cost and the workload."
+        },
+        {
+          "key": "hireStaff",
+          "label": "Hire staff",
+          "kind": "boolean",
+          "unit": "",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Staff costs money but frees your time."
+        },
+        {
+          "key": "monthlyRevenue",
+          "label": "Sales per month",
+          "kind": "number",
+          "unit": "per month",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Everything depends on how much you sell."
+        },
+        {
+          "key": "monthlyCosts",
+          "label": "Running costs per month",
+          "kind": "number",
+          "unit": "per month",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Rent, ingredients, wages and bills."
+        },
+        {
+          "key": "startupCost",
+          "label": "Start-up cost",
+          "kind": "number",
+          "unit": "one-off",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Fit-out, equipment and licences before opening."
+        },
+        {
+          "key": "hoursPerWeek",
+          "label": "Your working hours",
+          "kind": "number",
+          "unit": "hours per week",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Running a restaurant can take most of your time."
+        }
+      ],
+      "formulas": [
+        {
+          "key": "profitPerMonth",
+          "label": "Profit per month",
+          "expression": "monthlyRevenue - monthlyCosts",
+          "unit": "per month",
+          "condition": "",
+          "note": "Sales minus running costs.",
+          "reviewed": false
+        },
+        {
+          "key": "monthsToEarnBackTheStartUpCost",
+          "label": "Months to earn back the start-up cost",
+          "expression": "startupCost / (monthlyRevenue - monthlyCosts)",
+          "unit": "months",
+          "condition": "monthlyRevenue > monthlyCosts",
+          "note": "Only meaningful if there is a monthly profit.",
+          "reviewed": false
+        }
+      ],
+      "simulations": [],
+      "origin": {
+        "kind": "ai",
+        "model": "openai/gpt-oss-120b",
+        "acceptedAt": "2026-11-01T10:00:00.000Z",
+        "evidence": [
+          "Rents for suitable premises in your area",
+          "Typical spending by customers nearby"
+        ],
+        "limitations": [
+          "This draft cannot know your local market; every number must come from you."
+        ]
+      },
+      "branches": [
+        {
+          "id": "id2",
+          "parentId": null,
+          "name": "As things are",
+          "description": "The starting reality, as things are now.",
+          "values": {
+            "format": null,
+            "hireStaff": null,
+            "monthlyRevenue": null,
+            "monthlyCosts": null,
+            "startupCost": null,
+            "hoursPerWeek": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Local competition changes",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative."
+            }
+          ],
+          "parentFingerprint": null,
+          "fingerprint": "418b57dcd7a3c32186973fabcbcc2d93cb7746b25bbcf3fea3ceb31432b9dd06"
+        },
+        {
+          "id": "id4",
+          "parentId": "id2",
+          "name": "Small café, owner-run",
+          "description": "A small café where you do most of the work yourself.",
+          "values": {
+            "format": "café",
+            "hireStaff": false,
+            "monthlyRevenue": 9000,
+            "monthlyCosts": 7500,
+            "startupCost": null,
+            "hoursPerWeek": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Local competition changes",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative."
+            },
+            {
+              "id": "id5",
+              "text": "Full control over the menu and atmosphere",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside"
+            },
+            {
+              "id": "id6",
+              "text": "Long hours leave little time for family",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge"
+            }
+          ],
+          "parentFingerprint": "418b57dcd7a3c32186973fabcbcc2d93cb7746b25bbcf3fea3ceb31432b9dd06",
+          "fingerprint": "63e15f90f2d02eee986d7d17868a419c470cd18f1ba617d4a1c60c9540a1cbb4"
+        },
+        {
+          "id": "id7",
+          "parentId": "id2",
+          "name": "Full restaurant with staff",
+          "description": "A sit-down restaurant with hired staff.",
+          "values": {
+            "format": "full restaurant",
+            "hireStaff": true,
+            "monthlyRevenue": null,
+            "monthlyCosts": null,
+            "startupCost": null,
+            "hoursPerWeek": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Local competition changes",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative."
+            },
+            {
+              "id": "id8",
+              "text": "Room to grow and take bigger bookings",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside"
+            },
+            {
+              "id": "id9",
+              "text": "Managing people becomes a large part of the job",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge"
+            }
+          ],
+          "parentFingerprint": "418b57dcd7a3c32186973fabcbcc2d93cb7746b25bbcf3fea3ceb31432b9dd06",
+          "fingerprint": "86c8b517b921f4b17aed0538ecd36a2744575c3707bf2786d738fd2d3ce07f66"
+        },
+        {
+          "id": "id10",
+          "parentId": "id2",
+          "name": "Keep my current job",
+          "description": "Do not open a restaurant for now.",
+          "values": {
+            "format": null,
+            "hireStaff": null,
+            "monthlyRevenue": null,
+            "monthlyCosts": null,
+            "startupCost": null,
+            "hoursPerWeek": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Local competition changes",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative."
+            },
+            {
+              "id": "id11",
+              "text": "A steady income continues",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside"
+            },
+            {
+              "id": "id12",
+              "text": "The idea stays untested",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge"
+            }
+          ],
+          "parentFingerprint": "418b57dcd7a3c32186973fabcbcc2d93cb7746b25bbcf3fea3ceb31432b9dd06",
+          "fingerprint": "935e9fbbef6248e0b91a93dfa53d7d79473dd331686c8adf450661100e41037a"
+        },
+        {
+          "id": "id13",
+          "parentId": "id4",
+          "name": "Small café, owner-run · Hire staff: yes",
+          "description": "",
+          "values": {
+            "format": "café",
+            "hireStaff": true,
+            "monthlyRevenue": 9000,
+            "monthlyCosts": 7500,
+            "startupCost": null,
+            "hoursPerWeek": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Local competition changes",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative."
+            },
+            {
+              "id": "id5",
+              "text": "Full control over the menu and atmosphere",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside"
+            },
+            {
+              "id": "id6",
+              "text": "Long hours leave little time for family",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge"
+            },
+            {
+              "id": "own1",
+              "text": "Time off at weekends",
+              "likelihood": "possible",
+              "note": "",
+              "tone": "upside"
+            }
+          ],
+          "parentFingerprint": "63e15f90f2d02eee986d7d17868a419c470cd18f1ba617d4a1c60c9540a1cbb4",
+          "fingerprint": "79ec3f785b52d7b3302fff2692c59967de32475a35cb8699eddd2d5c58035c43"
+        }
+      ]
+    }
+  ]
+}

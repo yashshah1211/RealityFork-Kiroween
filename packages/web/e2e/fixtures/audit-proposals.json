@@ -1,0 +1,46 @@
+{
+  "exam-length": {
+    "interpretation": "Your exams lasting two hours instead of three, compared with keeping three-hour exams.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Two-hour exams", "description": "Each exam lasts two hours.", "settings": [{ "variable": "examLength", "value": "two hours" }] },
+      { "name": "Three-hour exams", "description": "Exams stay three hours long.", "settings": [{ "variable": "examLength", "value": "three hours" }] }
+    ],
+    "variables": [
+      { "key": "examLength", "label": "Exam length", "kind": "category", "unit": "", "options": ["two hours", "three hours"], "why": "The decision being explored." },
+      { "key": "breaksAllowed", "label": "Breaks allowed during the exam", "kind": "boolean", "unit": "", "options": [], "why": "Breaks change how tiring an exam feels." }
+    ],
+    "questions": ["How would questions be spread across the shorter time?"],
+    "formulas": [],
+    "possibilities": [
+      { "branch": "Two-hour exams", "text": "Less fatigue towards the end of the exam", "tone": "upside", "about": ["examLength"] },
+      { "branch": "Two-hour exams", "text": "Less time to check answers", "tone": "challenge", "about": ["examLength"] },
+      { "branch": "Three-hour exams", "text": "Fatigue could build up in the last hour", "tone": "challenge", "about": ["examLength", "breaksAllowed"] },
+      { "branch": "all", "text": "Revision habits could change", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["How students performed in the last hour of past exams"],
+    "limitations": ["Does not cover students with extra time arrangements."]
+  },
+  "bookstore": {
+    "interpretation": "Opening a small bookstore with the monthly sales, rent and other costs you gave, compared with not opening it.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Open the bookstore", "description": "You open the shop and run it yourself.", "settings": [{ "variable": "openShop", "value": "yes" }] },
+      { "name": "Don't open it", "description": "You keep things as they are.", "settings": [{ "variable": "openShop", "value": "no" }] }
+    ],
+    "variables": [
+      { "key": "openShop", "label": "Open the shop", "kind": "boolean", "unit": "", "options": [], "why": "The decision being explored." },
+      { "key": "monthlySales", "label": "Sales per month", "kind": "number", "unit": "₹ per month", "options": [], "why": "You said about this much." },
+      { "key": "rent", "label": "Rent", "kind": "number", "unit": "₹ per month", "options": [], "why": "You said about this much." },
+      { "key": "otherCosts", "label": "Other costs", "kind": "number", "unit": "₹ per month", "options": [], "why": "You said about this much." }
+    ],
+    "questions": ["Are the sales figures before or after the cost of the books?"],
+    "formulas": [{ "label": "shopProfit", "expression": "monthlySales - rent - otherCosts", "unit": "", "condition": "", "explanation": "Sales minus rent and other costs." }],
+    "possibilities": [
+      { "branch": "Open the bookstore", "text": "A shop of your own to shape", "tone": "upside", "about": ["openShop"] },
+      { "branch": "Open the bookstore", "text": "Slow months could squeeze the margin", "tone": "challenge", "about": ["monthlySales"] }
+    ],
+    "missingEvidence": ["What similar shops nearby pay in rent"],
+    "limitations": ["Uses only the figures you gave."]
+  }
+}

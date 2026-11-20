@@ -1,0 +1,474 @@
+{
+  "What if I moved to another country?": {
+    "interpretation": "You are thinking about relocating abroad. I assumed you would compare moving with a job, moving without one, and staying.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Move with a job offer",
+        "description": "Relocate after securing work in the new country.",
+        "settings": [
+          {
+            "variable": "haveJobOffer",
+            "value": "yes"
+          }
+        ]
+      },
+      {
+        "name": "Move and look for work",
+        "description": "Relocate first and search for a job there.",
+        "settings": [
+          {
+            "variable": "haveJobOffer",
+            "value": "no"
+          }
+        ]
+      },
+      {
+        "name": "Stay where I am",
+        "description": "Do not relocate for now.",
+        "settings": []
+      }
+    ],
+    "variables": [
+      {
+        "key": "haveJobOffer",
+        "label": "Job offer before moving",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "Income security changes the risk."
+      },
+      {
+        "key": "monthlyIncome",
+        "label": "Take-home pay",
+        "kind": "number",
+        "unit": "per month",
+        "options": [],
+        "why": "Pay may differ a lot between countries."
+      },
+      {
+        "key": "monthlyCosts",
+        "label": "Living costs",
+        "kind": "number",
+        "unit": "per month",
+        "options": [],
+        "why": "Rent and everyday costs differ by city."
+      },
+      {
+        "key": "movingCost",
+        "label": "One-off moving and visa costs",
+        "kind": "number",
+        "unit": "one-off",
+        "options": [],
+        "why": "Paid before any benefit arrives."
+      }
+    ],
+    "questions": [
+      "Which country and city?",
+      "Would your visa allow you to work?",
+      "What would rent cost there?"
+    ],
+    "formulas": [
+      {
+        "label": "Saved per month",
+        "expression": "monthlyIncome - monthlyCosts",
+        "unit": "per month",
+        "condition": "",
+        "explanation": "Pay minus living costs."
+      },
+      {
+        "label": "Saved in the first year",
+        "expression": "(monthlyIncome - monthlyCosts) * 12 - movingCost",
+        "unit": "",
+        "condition": "",
+        "explanation": "Twelve months of savings minus the one-off cost."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Move and look for work",
+        "text": "A period without income while searching",
+        "tone": "challenge",
+        "about": []
+      },
+      {
+        "branch": "all",
+        "text": "Missing family and friends",
+        "tone": "challenge",
+        "about": []
+      },
+      {
+        "branch": "Move with a job offer",
+        "text": "A fresh start with income from day one",
+        "tone": "upside",
+        "about": []
+      },
+      {
+        "branch": "Stay where I am",
+        "text": "Familiar routines and people stay close",
+        "tone": "upside",
+        "about": []
+      }
+    ],
+    "missingEvidence": [
+      "Visa and work-permit rules",
+      "Rents in the target city"
+    ],
+    "limitations": [
+      "Exchange rates and personal circumstances are not modelled."
+    ]
+  },
+  "What if my university changed examination scheduling?": {
+    "interpretation": "Your university is considering a different exam timetable. I assumed the choice is between the current final-exam period and spreading exams through the term.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Exams spread through term",
+        "description": "Several smaller exams during the term.",
+        "settings": [
+          {
+            "variable": "schedule",
+            "value": "spread"
+          }
+        ]
+      },
+      {
+        "name": "Current final-exam period",
+        "description": "Keep all exams at the end of term.",
+        "settings": [
+          {
+            "variable": "schedule",
+            "value": "end of term"
+          }
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "key": "schedule",
+        "label": "Exam schedule",
+        "kind": "category",
+        "unit": "",
+        "options": [
+          "end of term",
+          "spread"
+        ],
+        "why": "The change being explored."
+      },
+      {
+        "key": "examsPerStudent",
+        "label": "Exams per student",
+        "kind": "number",
+        "unit": "exams per term",
+        "options": [],
+        "why": "Sets the workload."
+      },
+      {
+        "key": "examWeeks",
+        "label": "Weeks containing exams",
+        "kind": "number",
+        "unit": "weeks",
+        "options": [],
+        "why": "How concentrated the exams are."
+      },
+      {
+        "key": "rescheduleAllowed",
+        "label": "Students can reschedule",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "Affects fairness for students with clashes."
+      }
+    ],
+    "questions": [
+      "How many exams does a typical student sit?",
+      "Which weeks are available?"
+    ],
+    "formulas": [
+      {
+        "label": "Exams per exam week",
+        "expression": "examsPerStudent / examWeeks",
+        "unit": "exams per week",
+        "condition": "examWeeks > 0",
+        "explanation": "How crowded each exam week is."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Exams spread through term",
+        "text": "Less cramming but more continuous pressure",
+        "tone": "uncertain",
+        "about": []
+      },
+      {
+        "branch": "Current final-exam period",
+        "text": "Stress concentrated in a few weeks",
+        "tone": "challenge",
+        "about": []
+      },
+      {
+        "branch": "Exams spread through term",
+        "text": "Earlier feedback on how students are doing",
+        "tone": "upside",
+        "about": []
+      },
+      {
+        "branch": "Current final-exam period",
+        "text": "Students keep a familiar routine",
+        "tone": "upside",
+        "about": []
+      }
+    ],
+    "missingEvidence": [
+      "Student and staff views",
+      "Room and invigilator availability"
+    ],
+    "limitations": [
+      "Learning outcomes cannot be calculated from these assumptions."
+    ]
+  },
+  "What if my household installed solar panels?": {
+    "interpretation": "Your household is considering solar panels. I assumed you would compare panels alone, panels with a battery, and no change.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Panels only",
+        "description": "Install panels without a battery.",
+        "settings": [
+          {
+            "variable": "battery",
+            "value": "no"
+          }
+        ]
+      },
+      {
+        "name": "Panels and battery",
+        "description": "Install panels with a home battery.",
+        "settings": [
+          {
+            "variable": "battery",
+            "value": "yes"
+          }
+        ]
+      },
+      {
+        "name": "No solar",
+        "description": "Keep buying all electricity from the grid.",
+        "settings": []
+      }
+    ],
+    "variables": [
+      {
+        "key": "battery",
+        "label": "Battery included",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "Changes cost and how much is used at home."
+      },
+      {
+        "key": "installCost",
+        "label": "Installation cost",
+        "kind": "number",
+        "unit": "one-off",
+        "options": [],
+        "why": "Needs a quote."
+      },
+      {
+        "key": "yearlyGeneration",
+        "label": "Electricity generated",
+        "kind": "number",
+        "unit": "kWh per year",
+        "options": [],
+        "why": "Depends on roof and weather."
+      },
+      {
+        "key": "pricePerKwh",
+        "label": "Electricity price",
+        "kind": "number",
+        "unit": "per kWh",
+        "options": [],
+        "why": "Sets the value of each unit generated."
+      }
+    ],
+    "questions": [
+      "Which direction does the roof face?",
+      "What would an installer charge?"
+    ],
+    "formulas": [
+      {
+        "label": "Value per year",
+        "expression": "yearlyGeneration * pricePerKwh",
+        "unit": "per year",
+        "condition": "",
+        "explanation": "Assumes every unit generated replaces a bought unit."
+      },
+      {
+        "label": "Years to pay back",
+        "expression": "installCost / (yearlyGeneration * pricePerKwh)",
+        "unit": "years",
+        "condition": "yearlyGeneration * pricePerKwh > 0",
+        "explanation": "Only meaningful when there is a yearly value."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Panels and battery",
+        "text": "Some backup power during outages",
+        "tone": "upside",
+        "about": []
+      },
+      {
+        "branch": "all",
+        "text": "Electricity prices change",
+        "tone": "uncertain",
+        "about": []
+      },
+      {
+        "branch": "Panels only",
+        "text": "Lower electricity bills",
+        "tone": "upside",
+        "about": []
+      },
+      {
+        "branch": "No solar",
+        "text": "No disruption from installation",
+        "tone": "upside",
+        "about": []
+      }
+    ],
+    "missingEvidence": [
+      "Installer quotes",
+      "Your electricity bills"
+    ],
+    "limitations": [
+      "Export payments and panel ageing are not included."
+    ]
+  },
+  "What if I chose a different career?": {
+    "interpretation": "You are considering changing career. I assumed you would compare retraining full time, retraining part time, and staying in your current career.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Retrain full time",
+        "description": "Stop working to retrain.",
+        "settings": [
+          {
+            "variable": "keepWorking",
+            "value": "no"
+          }
+        ]
+      },
+      {
+        "name": "Retrain part time",
+        "description": "Keep working while retraining.",
+        "settings": [
+          {
+            "variable": "keepWorking",
+            "value": "yes"
+          }
+        ]
+      },
+      {
+        "name": "Stay in my career",
+        "description": "Continue in the current role.",
+        "settings": []
+      }
+    ],
+    "variables": [
+      {
+        "key": "keepWorking",
+        "label": "Keep working while retraining",
+        "kind": "boolean",
+        "unit": "",
+        "options": [],
+        "why": "Determines income during retraining."
+      },
+      {
+        "key": "trainingMonths",
+        "label": "Length of retraining",
+        "kind": "number",
+        "unit": "months",
+        "options": [],
+        "why": "How long the transition takes."
+      },
+      {
+        "key": "trainingCost",
+        "label": "Cost of retraining",
+        "kind": "number",
+        "unit": "one-off",
+        "options": [],
+        "why": "Courses and certificates."
+      },
+      {
+        "key": "currentPay",
+        "label": "Current pay",
+        "kind": "number",
+        "unit": "per month",
+        "options": [],
+        "why": "What you would give up."
+      },
+      {
+        "key": "newPay",
+        "label": "Starting pay in the new career",
+        "kind": "number",
+        "unit": "per month",
+        "options": [],
+        "why": "What you might earn after."
+      }
+    ],
+    "questions": [
+      "Which new career?",
+      "How long does qualifying take?",
+      "What do starting roles pay?"
+    ],
+    "formulas": [
+      {
+        "label": "Change in monthly pay",
+        "expression": "newPay - currentPay",
+        "unit": "per month",
+        "condition": "",
+        "explanation": "Difference once working in the new career."
+      }
+    ],
+    "possibilities": [
+      {
+        "branch": "Retrain full time",
+        "text": "Savings run down during training",
+        "tone": "challenge",
+        "about": []
+      },
+      {
+        "branch": "Retrain part time",
+        "text": "Little free time for a while",
+        "tone": "challenge",
+        "about": []
+      },
+      {
+        "branch": "all",
+        "text": "Job satisfaction changes",
+        "tone": "uncertain",
+        "about": []
+      },
+      {
+        "branch": "Retrain part time",
+        "text": "Income continues while you learn",
+        "tone": "upside",
+        "about": []
+      },
+      {
+        "branch": "Stay in my career",
+        "text": "Experience keeps building where you are",
+        "tone": "upside",
+        "about": []
+      }
+    ],
+    "missingEvidence": [
+      "Job listings in the new field",
+      "Course costs and length"
+    ],
+    "limitations": [
+      "Satisfaction and career growth are speculative here."
+    ]
+  }
+}

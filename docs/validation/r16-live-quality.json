@@ -1,0 +1,449 @@
+{
+  "recordedAt": "2026-11-09T08:25:47.170Z",
+  "model": "openai/gpt-oss-120b",
+  "keyPresent": true,
+  "maxAttempts": 1,
+  "request1": {
+    "kind": "plan",
+    "body": {
+      "question": "What if I moved to Germany while keeping my current remote job?"
+    },
+    "result": {
+      "ok": true,
+      "proposal": {
+        "interpretation": "You are considering moving to Germany while continuing to work remotely for your current employer. I assumed the move is permanent and that you will keep the same job duties and salary.",
+        "contextQuestions": [],
+        "branches": [
+          {
+            "name": "Full relocation",
+            "description": "Move to Germany and work entirely remotely from there.",
+            "settings": [
+              {
+                "variable": "visaStatus",
+                "value": "workVisa"
+              },
+              {
+                "variable": "remoteWorkAllowed",
+                "value": "yes"
+              }
+            ]
+          },
+          {
+            "name": "Split residency",
+            "description": "Spend part of the year in Germany and part in your current country, maintaining dual residency.",
+            "settings": [
+              {
+                "variable": "visaStatus",
+                "value": "touristOrResidencePermit"
+              },
+              {
+                "variable": "remoteWorkAllowed",
+                "value": "yes"
+              }
+            ]
+          },
+          {
+            "name": "Stay home",
+            "description": "Keep your current location and do not move to Germany.",
+            "settings": [
+              {
+                "variable": "visaStatus",
+                "value": "none"
+              },
+              {
+                "variable": "remoteWorkAllowed",
+                "value": "yes"
+              }
+            ]
+          }
+        ],
+        "variables": [
+          {
+            "key": "visaStatus",
+            "label": "Visa or residence status",
+            "kind": "category",
+            "unit": "",
+            "options": [
+              "none",
+              "touristOrResidencePermit",
+              "workVisa"
+            ],
+            "why": "Determines legal ability to stay and work in Germany."
+          },
+          {
+            "key": "remoteWorkAllowed",
+            "label": "Employer permits remote work from abroad",
+            "kind": "boolean",
+            "unit": "",
+            "options": [],
+            "why": "Your job must be allowed to be performed outside the home country."
+          },
+          {
+            "key": "taxResident",
+            "label": "Will you become a German tax resident",
+            "kind": "boolean",
+            "unit": "",
+            "options": [],
+            "why": "Tax residency affects how income is taxed."
+          },
+          {
+            "key": "costOfLiving",
+            "label": "Cost of living level",
+            "kind": "number",
+            "unit": "",
+            "options": [],
+            "why": "Higher or lower living costs change disposable income."
+          },
+          {
+            "key": "languageProficiency",
+            "label": "German language proficiency",
+            "kind": "category",
+            "unit": "",
+            "options": [
+              "basic",
+              "intermediate",
+              "advanced"
+            ],
+            "why": "Language skill influences daily life and integration."
+          }
+        ],
+        "questions": [
+          "Will your employer formally approve remote work from Germany?",
+          "What type of visa or residence permit can you obtain for a long‑term stay?",
+          "Do you expect to become a German tax resident after moving?",
+          "How does your expected cost of living in Germany compare to your current location?",
+          "What is your current level of German language proficiency?"
+        ],
+        "formulas": [],
+        "possibilities": [
+          {
+            "branch": "Full relocation",
+            "text": "Your taxable income might be subject to German tax rates.",
+            "trigger": "taxResident is true",
+            "mechanism": "German tax law taxes residents on worldwide income.",
+            "downstream": "Higher taxes could reduce net earnings.",
+            "uncertainty": "Check the tax treaty between Germany and your current country.",
+            "tone": "challenge",
+            "about": [
+              "taxResident"
+            ]
+          },
+          {
+            "branch": "Split residency",
+            "text": "You may retain non‑resident tax status in Germany.",
+            "trigger": "taxResident is false",
+            "mechanism": "Spending less than the residency threshold keeps you non‑resident for tax purposes.",
+            "downstream": "You continue paying tax only in your home country.",
+            "uncertainty": "Verify the number of days allowed for non‑resident status.",
+            "tone": "upside",
+            "about": [
+              "taxResident"
+            ]
+          },
+          {
+            "branch": "Split residency",
+            "text": "Frequent travel could increase administrative overhead.",
+            "trigger": "visaStatus is touristOrResidencePermit",
+            "mechanism": "Multiple entries and exits require tracking and possible extensions.",
+            "downstream": "Time spent on paperwork may reduce free time.",
+            "uncertainty": "Assess the renewal process and costs for the permit.",
+            "tone": "challenge",
+            "about": [
+              "visaStatus"
+            ]
+          }
+        ],
+        "missingEvidence": [
+          "Exact visa category and eligibility criteria for remote workers.",
+          "Details of the tax treaty between Germany and your current country.",
+          "Projected monthly cost of living in the German city you are considering.",
+          "Your employer’s official remote‑work policy for overseas locations."
+        ],
+        "limitations": [
+          "Assumes salary remains unchanged after the move.",
+          "Does not account for health‑insurance requirements in Germany.",
+          "Only high‑level cost‑of‑living differences are considered.",
+          "Language proficiency is treated as a categorical factor, not a skill gradient."
+        ]
+      },
+      "warnings": [
+        "Left out invalid AI-suggested formulas.",
+        "Left out 2 suggestions without a clear cause.",
+        "Left out speculative claims that failed checks."
+      ],
+      "model": "openai/gpt-oss-120b",
+      "attempts": 1,
+      "usage": {
+        "queue_time": 0.385294939,
+        "prompt_tokens": 1770,
+        "prompt_time": 0.182276576,
+        "completion_tokens": 1553,
+        "completion_time": 3.284312808,
+        "total_tokens": 3323,
+        "total_time": 3.466589384,
+        "completion_tokens_details": {
+          "reasoning_tokens": 72
+        }
+      },
+      "ms": 4060,
+      "rateLimit": {
+        "x-ratelimit-limit-requests": "1000",
+        "x-ratelimit-remaining-requests": "999",
+        "x-ratelimit-limit-tokens": "8000",
+        "x-ratelimit-remaining-tokens": "5870",
+        "x-ratelimit-reset-requests": "1m26.4s",
+        "x-ratelimit-reset-tokens": "15.975s"
+      }
+    }
+  },
+  "mapSource": "live draft (request 1)",
+  "draftChecks": {
+    "futures": [
+      {
+        "name": "Full relocation",
+        "decisions": [
+          "visaStatus=workVisa",
+          "remoteWorkAllowed=yes"
+        ]
+      },
+      {
+        "name": "Split residency",
+        "decisions": [
+          "visaStatus=touristOrResidencePermit",
+          "remoteWorkAllowed=yes"
+        ]
+      },
+      {
+        "name": "Stay home",
+        "decisions": [
+          "visaStatus=none",
+          "remoteWorkAllowed=yes"
+        ]
+      }
+    ],
+    "numberAssumptions": [
+      "costOfLiving"
+    ],
+    "formulas": [],
+    "consequences": 3,
+    "withDownstream": 3,
+    "taskLike": 0
+  },
+  "path": "Full relocation",
+  "request2": {
+    "kind": "revisit",
+    "body": {
+      "question": "What if I moved to Germany while keeping my current remote job?",
+      "context": [],
+      "path": {
+        "name": "Full relocation",
+        "description": "Move to Germany and work entirely remotely from there."
+      },
+      "known": [
+        {
+          "question": "",
+          "answer": "I expect the cost of living in Germany to be higher than in my current city."
+        }
+      ],
+      "assumptions": [
+        {
+          "key": "visaStatus",
+          "label": "Visa or residence status",
+          "kind": "category",
+          "unit": "",
+          "options": [
+            "none",
+            "touristOrResidencePermit",
+            "workVisa"
+          ],
+          "value": "workVisa",
+          "source": "ai"
+        },
+        {
+          "key": "remoteWorkAllowed",
+          "label": "Employer permits remote work from abroad",
+          "kind": "boolean",
+          "unit": "",
+          "options": [],
+          "value": true,
+          "source": "ai"
+        },
+        {
+          "key": "taxResident",
+          "label": "Will you become a German tax resident",
+          "kind": "boolean",
+          "unit": "",
+          "options": [],
+          "value": null,
+          "source": "unset"
+        },
+        {
+          "key": "costOfLiving",
+          "label": "Cost of living level",
+          "kind": "number",
+          "unit": "",
+          "options": [],
+          "value": null,
+          "source": "unset"
+        },
+        {
+          "key": "languageProficiency",
+          "label": "German language proficiency",
+          "kind": "category",
+          "unit": "",
+          "options": [
+            "basic",
+            "intermediate",
+            "advanced"
+          ],
+          "value": null,
+          "source": "unset"
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "r_2fdf3c93a089",
+          "text": "Your taxable income might be subject to German tax rates.",
+          "tone": "challenge",
+          "from": "ai"
+        }
+      ],
+      "change": "The user told us: I expect the cost of living in Germany to be higher than in my current city.."
+    },
+    "result": {
+      "ok": true,
+      "suggestion": {
+        "summary": "Because your expectation that living costs will be higher in Germany could shrink your disposable income, the financial outcome of the relocation path may change.",
+        "reconsider": [],
+        "add": [
+          {
+            "text": "Your monthly savings could shrink.",
+            "trigger": "cost of living turns out higher than in your current city",
+            "mechanism": "Higher everyday expenses reduce the amount left after paying bills.",
+            "downstream": "You may need to renegotiate your salary or cut discretionary spending.",
+            "uncertainty": "If actual expenses are lower than expected, the impact on savings may be minimal.",
+            "tone": "challenge",
+            "about": [
+              "costOfLiving"
+            ]
+          },
+          {
+            "text": "You might need to adjust your budget for housing.",
+            "trigger": "local rent prices are higher than anticipated",
+            "mechanism": "Housing typically consumes a large share of monthly outlays.",
+            "downstream": "A tighter budget could affect other lifestyle choices.",
+            "uncertainty": "Finding a cheaper neighbourhood or shared accommodation could offset higher rents.",
+            "tone": "uncertain",
+            "about": [
+              "costOfLiving"
+            ]
+          },
+          {
+            "text": "You could face a higher tax burden if you become a German tax resident.",
+            "trigger": "taxResident becomes true",
+            "mechanism": "German tax rates apply to worldwide income for residents.",
+            "downstream": "You may need to seek professional tax advice to optimise liabilities.",
+            "uncertainty": "If you remain a non‑resident for tax purposes, the German tax impact would be limited.",
+            "tone": "challenge",
+            "about": [
+              "taxResident"
+            ]
+          },
+          {
+            "text": "You may need to improve German language skills for daily life.",
+            "trigger": "languageProficiency remains at basic level",
+            "mechanism": "Limited language ability can make everyday tasks harder and increase reliance on services.",
+            "downstream": "Investing time in language learning could ease integration and reduce hidden costs.",
+            "uncertainty": "If you quickly reach intermediate proficiency, the impact lessens.",
+            "tone": "upside",
+            "about": [
+              "languageProficiency"
+            ]
+          }
+        ],
+        "questions": [
+          "How does the cost of housing, food, and transportation in your target German city compare to your current city?",
+          "Will you meet the criteria to become a German tax resident based on your stay duration and ties?",
+          "Does your employer’s remote‑work policy allow you to stay abroad for the long term without contract changes?",
+          "What level of German language proficiency is required for everyday activities like banking, healthcare, and shopping?"
+        ],
+        "evidence": [
+          "Cost‑of‑living indexes or local price surveys for the German city you plan to move to.",
+          "Official German tax residency guidelines and thresholds.",
+          "Your employer’s written remote‑work agreement or policy document."
+        ]
+      },
+      "warnings": [],
+      "model": "openai/gpt-oss-120b",
+      "attempts": 1,
+      "usage": {
+        "queue_time": 0.383256033,
+        "prompt_tokens": 1179,
+        "prompt_time": 0.125644855,
+        "completion_tokens": 814,
+        "completion_time": 1.710426486,
+        "total_tokens": 1993,
+        "total_time": 1.836071341,
+        "completion_tokens_details": {
+          "reasoning_tokens": 175
+        }
+      },
+      "ms": 2347,
+      "rateLimit": {
+        "x-ratelimit-limit-requests": "1000",
+        "x-ratelimit-remaining-requests": "998",
+        "x-ratelimit-limit-tokens": "8000",
+        "x-ratelimit-remaining-tokens": "6376",
+        "x-ratelimit-reset-requests": "2m52.8s",
+        "x-ratelimit-reset-tokens": "12.18s"
+      }
+    }
+  },
+  "applied": {
+    "staleBefore": 1,
+    "staleAfter": 0,
+    "shown": [
+      {
+        "sentence": "Your monthly savings could shrink if cost of living turns out higher than in your current city.",
+        "then": "You may need to renegotiate your salary or cut discretionary spending.",
+        "why": "Higher everyday expenses reduce the amount left after paying bills.",
+        "dependsOn": [
+          "Cost of living level (not known yet)"
+        ],
+        "whatCouldChangeThis": "If actual expenses are lower than expected, the impact on savings may be minimal."
+      },
+      {
+        "sentence": "You might need to adjust your budget for housing if local rent prices are higher than anticipated.",
+        "then": "A tighter budget could affect other lifestyle choices.",
+        "why": "Housing typically consumes a large share of monthly outlays.",
+        "dependsOn": [
+          "Cost of living level (not known yet)"
+        ],
+        "whatCouldChangeThis": "Finding a cheaper neighbourhood or shared accommodation could offset higher rents."
+      },
+      {
+        "sentence": "You could face a higher tax burden if you become a German tax resident if taxResident becomes true.",
+        "then": "You may need to seek professional tax advice to optimise liabilities.",
+        "why": "German tax rates apply to worldwide income for residents.",
+        "dependsOn": [
+          "Will you become a German tax resident (not known yet)"
+        ],
+        "whatCouldChangeThis": "If you remain a non‑resident for tax purposes, the German tax impact would be limited."
+      },
+      {
+        "sentence": "You may need to improve German language skills for daily life if languageProficiency remains at basic level.",
+        "then": "Investing time in language learning could ease integration and reduce hidden costs.",
+        "why": "Limited language ability can make everyday tasks harder and increase reliance on services.",
+        "dependsOn": [
+          "German language proficiency (not known yet)"
+        ],
+        "whatCouldChangeThis": "If you quickly reach intermediate proficiency, the impact lessens."
+      }
+    ],
+    "setAside": [],
+    "taskLike": 0,
+    "otherPathsUnchanged": true,
+    "fingerprintsSurviveExport": true
+  },
+  "providerRequests": 2
+}

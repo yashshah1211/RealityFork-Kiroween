@@ -1,0 +1,26 @@
+{
+  "name": "Front desk arrivals, constant rate (SYNTHETIC)",
+  "fileName": "frontdesk-arrivals-SYNTHETIC.csv",
+  "sha256": "bc184427dcf49126a28181774d5f296e640f72d8c0238af9a0a478617c8f6684",
+  "synthetic": true,
+  "license": "CC0-1.0",
+  "description": "SYNTHETIC data. Not observations of any real service location. 40 hours of continuous operation with a constant arrival rate of 16/h and exponential service times with mean 6 minutes (10 per staff member per hour).",
+  "generator": "packages/core/src/data/synthetic.ts generateSyntheticArrivalLog (RNG xoshiro128**)",
+  "generatorParameters": {
+    "seed": 16106,
+    "arrivalRatePerHour": 16,
+    "meanServiceMinutes": 6,
+    "start": "2026-03-02T00:00:00Z",
+    "hours": 40,
+    "serviceRatePerHour": 10
+  },
+  "observationWindow": {
+    "start": "2026-03-02T00:00:00.000Z",
+    "end": "2026-03-03T16:00:00.000Z"
+  },
+  "columns": {
+    "arrival_time": "ISO 8601 arrival instant, UTC (Z)",
+    "service_minutes": "service duration in minutes, 2 decimals"
+  },
+  "serviceDurationUnit": "minutes"
+}

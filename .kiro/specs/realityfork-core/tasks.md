@@ -1,0 +1,126 @@
+# Tasks: RealityFork core
+
+- [x] 1. Scaffold, Kiro artifacts, seeded random streams (R1)
+  - [x] 1.1 Workspaces, strict TS, Vitest, fast-check, MIT license
+  - [x] 1.2 Steering: product, tech, simulation-correctness, claims-policy
+  - [x] 1.3 Hook: run core tests on save of packages/core/src (`.kiro/hooks/core-tests-on-save.json`)
+  - [x] 1.4 rng.ts + tests (determinism, independence, range, exponential mean, xoshiro128** reference vectors)
+- [x] 2. Event engine and queue model (R2)
+  - [x] 2.1 eventQueue.ts + ordering tests
+  - [x] 2.2 queue.ts with run phases and drain-cohort end of run
+  - [x] 2.3 Tests: conservation, ranges, FIFO, determinism, monotonicity in c,
+        Lindley / Kiefer–Wolfowitz known answers, exact finite-window Little identity
+  - [x] 2.4 CLI `npm run sim`
+- [x] 3. Replications, statistics, benchmark (R3)
+  - [x] 3.1 t distribution + summary + tests against published quantiles
+  - [x] 3.2 runner with run metadata (model, engine and RNG versions; seed; params; settings; dataProvenance placeholder)
+  - [x] 3.3 Erlang C + tests against hand-computed values
+  - [x] 3.4 Benchmark tests (Bonferroni CI, precision, asymptotic Little): pass on first run, seeds unchanged
+  - [x] 3.5 `npm run benchmark` writes docs/validation/benchmark-report.md with the Welch curve and runtimes
+  - Follow-up: the Welch pilot is inconclusive at 30 replications (see report); consider ≥ 200 pilot replications or MSER-5
+- [x] 0. Correctness review (R0): metric bases documented; costPerHour fixed (queue.mmc@1.1.0);
+      NaN encoding; reproducibility limits in docs/validation/reproducibility.md
+- [x] 4. Scenario store, branching, reproducibility (R4)
+  - [x] 4.1 canonical JSON + SHA-256 (FIPS vectors, order-independence property)
+  - [x] 4.2 create/fork/editDraft/run/reproduce with deep freezing and locking
+  - [x] 4.3 bundle export/import with full validation; negative tests (tampered assumptions/results,
+        unknown versions, schema, duplicates, lineage, engine-version mismatch)
+  - [x] 4.4 ScenarioStore lineage; CLI `npm run rf`
+- [x] 5. Comparison + one-at-a-time sensitivity (R5)
+  - [x] 5.1 paired/Welch differences; conclusions; measured CRN variance ratio (including a case where it increases)
+  - [x] 5.2 OAT effects + interaction residual; zero- and nonzero-interaction tests
+  - [x] 5.3 template explanations; demo script examples/demo-branching.sh
+- [x] 6. CSV import with explicit observation window (R6)
+  - [x] 6.1 RFC 4180 parser, strict ISO 8601 timestamps with an explicit time zone policy
+  - [x] 6.2 estimator (Garwood λ CI, t CI for mean service, unit conversion), CV and dispersion checks
+  - [x] 6.3 synthetic generator + dataset card (`npm run generate:synthetic`)
+  - [x] 6.4 forkFromEstimate with overrides and full provenance in the fingerprint
+  - [x] 6.5 tests: recovery at a fixed seed, 95% coverage over 200 datasets, invalid imports,
+        a documented blind spot (regular arrivals with a rate change pass both arrival checks)
+- [x] 7. Minimal UI + Playwright (R7)
+  - [x] 7.1 Workspace state class + Web Worker engine; 7 unit tests (data flow, immutability, persistence, import, CSV apply)
+  - [x] 7.2 React views: scenario tree, assumptions, outcomes, comparison, sensitivity, reproduce, data import
+  - [x] 7.3 Playwright: full journey + invalid CSV; screenshots in docs/validation/screenshots/
+- [ ] 8. Validation, usability, differentiation, decision (R8): **automated and expert parts done; participant study PENDING**
+  - [x] 8.1 viewport inspection at 1440/768/390 (e2e/viewports.spec.ts); responsive fix for the comparison and sensitivity rows
+  - [x] 8.2 differentiation.md (primary sources; no competitor tested hands-on)
+  - [x] 8.3 usability-protocol.md + usability-results-sheet.md (blank)
+  - [x] 8.4 regression run; estimator 1.1.0 adds the split-half rate-drift check for the Task 7 blind spot
+  - [x] 8.5 decision.md: PROVISIONAL REVISE
+  - [ ] 8.6 run 3–5 real participants and finalise the decision
+- [x] 9. Revision sprint A (R9)
+  - [x] 9.1 DecisionMapping, computeTradeoff, explainTradeoff; 9 tests including every no-threshold case
+  - [x] 9.2 front-desk synthetic datasets (constant-rate and daily pattern); clinic fixture byte-identical
+  - [x] 9.3 UI: front-desk example, trade-off panel, plain-language help, technical detail disclosure, minutes-first rounding; e2e updated
+  - [x] 9.4 found while running tests: a fast-check property compared a floating-point product with an integer (55/180 × 180); fixed by rounding the departure count, with a regression case
+- [x] 10. Revision sprint B (R10)
+  - [x] 10.1 queue.daypart@0.1.0 (simulateScheduled, time-change arrival generator)
+  - [x] 10.2 19 validation tests (docs/validation/revision-sprint.md §4)
+  - [x] 10.3 block-rates-csv@0.1.0 estimator
+  - [x] 10.4 `npm run demo:daypart` → docs/validation/daypart-demo.txt
+  - [ ] 10.5 daypart model in the UI (not started; out of sprint scope)
+- [x] 11. Decision experience sprint (R11)
+  - [x] 11.1 boundary and cost audit; queue.daypart@0.2.0; 12 audit regression tests; mechanics tests run under both versions
+  - [x] 11.2 core: scheduleView, standardAlternatives, explainStaffingChoice, block-rate provenance helpers (5 tests)
+  - [x] 11.3 UI: first screen, ScheduleChart, FuturesComparison, demand-source table, "simulate all drafts"
+  - [x] 11.4 Playwright schedule journey at 3 widths; screenshots in docs/validation/screenshots/schedule/
+  - [x] 11.5 usability protocol + blank results sheet for the scheduling task
+  - [ ] 11.6 run 3–5 real participants (recruited separately)
+  - [x] 10.5 (from R10) daypart model in the UI
+- [x] 12. Universal platform vertical slice (R12)
+  - [x] 12.1 core: expression language, reality operations, comparison, simulation adapter, bundle; 10 tests
+  - [x] 12.2 examples as data (move city, solar, café queue)
+  - [x] 12.3 web: What-if home, branching canvas, reality / assumptions / compare tabs, persistence, import/export; staffing tool at #staffing
+  - [x] 12.4 Playwright acceptance test (new situation) at 1440 and 390 px, plus examples
+  - [ ] 12.5 next stage: user testing of the universal flow; formula editing in place; templates shared by users
+- [x] 13. AI scenario planner (R13): core proposal schema/validator/converter, server adapter + Vite endpoint, preview UI, mocked tests for 5 domains, Playwright journey
+  - [ ] 13.1 live Groq inference: the five-domain `npm run plan:eval` has not been run. A two-request live smoke test for R15 passed (docs/validation/reactive-live-smoke.json).
+- [x] 14. Visual-first experience (R14)
+  - [x] 14.1 core: `story.ts` (branchStory, forkChoices, compareStory), optional tone and origin, compatibility fixture; 6 tests
+  - [x] 14.2 web: Imagine, Discover, Explore, RealityMap, CompareView; More menu; All details keeps the existing editors
+  - [x] 14.3 Playwright: restaurant journey (desktop + mobile), relocation by keyboard, reduced motion, AI unavailable; existing journeys updated
+  - [ ] 14.4 test the journey with first-time visitors (not started)
+- [x] 15. Context-aware, reactive futures (R15)
+  - [x] 15.1 core: context questions and answers in the proposal schema and validator, `ASSERTION_RE`, suggestion dependencies (`about`, `basis`), Known facts and value sources, `revisit.ts` (request, check, validation, approval), story views (known, stale, what changed, set aside, to verify); 27 tests including a branch-independence property and two compatibility fixtures
+  - [x] 15.2 server: `plan(question, context)`, `revisit(request)`, shared limiter, `maxAttempts`, bounded repair for fresh looks, `POST /api/revisit`; 7 tests
+  - [x] 15.3 web: context step in Discover, Known section, what changed, fresh-look prompt and preview, set-aside list, to verify, "Not sure? Explore both"; store tests with a fake server (11)
+  - [x] 15.4 Playwright: relocation (desktop + mobile), restaurant, university, refused eligibility claim; existing journeys unchanged
+  - [x] 15.5 live smoke test with two GroqCloud requests (docs/validation/reactive-live-smoke.json)
+  - [ ] 15.6 test the context questions and fresh looks with first-time visitors (not started)
+  - [x] 15.7 user-testing fixes: fresh-look action no longer hidden behind open questions (R15.10); facts point to matching open questions (R15.11); regression tests
+- [x] 16. Future quality (R16)
+  - [x] 16.1 baseline before code (docs/validation/r16-quality-baseline.md)
+  - [x] 16.2 core: `CausalLink`, `consequenceErrors` / `statementErrors`, `isTaskLike`, `RULE_RE`, internal names, settings checks, `conditionalSentence` / `consequenceView`; compatibility fixture `realities-4e4bdfe.json`
+  - [x] 16.3 server repair notes by reason; revisit output budget 2000 tokens; replay test of the live look
+  - [x] 16.4 web: consequence with condition, "Then", "Why this might happen"; revisit preview with why and then; Playwright at 1440 and 390 px
+  - [x] 16.5 live check with two requests (docs/validation/r16-live-quality.json); results and decision (docs/validation/r16-quality-results.md)
+  - [ ] 16.6 causal first drafts (REVISE: not shipped)
+  - [ ] 16.7 live sampling of "another look" in the other four domains (not started)
+- [x] 17. Interactive counterfactual exploration (R17)
+  - [x] 17.1 core: `relatedAssumptions`, `whatIfView` (on `describeChange`); 7 tests across relocation, restaurant and university
+  - [x] 17.2 store: `exploreChange` and the session mark; 3 tests
+  - [x] 17.3 web: "What if this changed?" sheet, "What this change does" note, Compare tags; R16 choice link replaced
+  - [x] 17.4 Playwright: relocation (1440 and 390 px), restaurant, university; before/after screenshots
+  - [ ] 17.5 test the flow with first-time visitors (not started)
+- [x] 18. Audit repairs (R18)
+  - [x] 18.1 root causes confirmed in source and failing reproductions written before any fix (docs/validation/r18-audit-repairs.md)
+  - [x] 18.2 core: `pathDifference` / `diffFacts` / `changesFromParent.told`, `carriedOver`, `valueOrigin` / `formulaUses`, `formulaUnit`, `readableLabel`, `ValueSource` "example", `addVariable` source; 20 tests
+  - [x] 18.3 web: focused change sheet, told changes in header/map/Compare, Compare simulated section, carried-over tags, all saved maps, provenance lines, currency-aware formatting and parsing; 16 unit tests
+  - [x] 18.4 Playwright: journeys A–E, RF-05, RF-06 and a 390 px fit check (10 tests); existing specs updated for the new formats
+  - [ ] 18.5 check the draft prompt's currency rule with live requests (not run: no live calls in R18)
+- [x] 19. Truthful branches and data safety (milestone R18.1, priorities P1 to P5)
+  - [x] 19.1 root causes confirmed in source from the R18 retest (docs/validation/r18-independent-browser-retest.md, committed first)
+  - [x] 19.2 core: `INTERVENTION_QUESTION` / `isIntervention`, `Possibility.source` and `possibilityOrigin`, `normalizeUnit` / `sameUnit` (units.ts), `mergeImported` / `sameContent`, hypothetical wording in the AI request; 25 tests in test/truth.test.ts
+  - [x] 19.3 web: describe-a-path form on the one `exploreChange` operation, "Exploring" wording on every surface, origin captions and tags, the `parseNumberInput` policy with field errors, non-destructive import with a plain notice; 86 format tests and 14 store tests
+  - [x] 19.4 Playwright: 17 tests in e2e/truth.spec.ts (P1 on both viewports, P2, P3 on six field configurations, P4, P5 on both viewports, 390 px fit); the number matrix is written from what the browser stored; the 36-probe retest harness rerun against the repaired build (docs/validation/r18-1-retest-rerun/)
+  - [ ] 19.5 check the draft prompt's currency and unit rule with live requests (not run: no live calls in R18.1; RF-07 stays PARTIAL)
+- [x] 20. Frictionless first experience (milestone R19)
+  - [x] 20.1 baseline measured on 29c014b before any change: actions, repeated entries, wording, what "Ask again" resends, request provenance (docs/validation/r19-baseline.md, committed first as feebe9e)
+  - [x] 20.2 core: `parseNumberInput` moved to `amounts.ts` unchanged; `stated.ts` (`readStatedValues`, `matchStatedValues`, `figurePlan`, `appliedFigures`, `currencyHint`); `Branch.stated`; `proposalToReality(…, { figures })`; `knownView` / `valueOrigin` carry the words; 43 tests in test/stated.test.ts
+  - [x] 20.3 core: request provenance `from` ai | user | example | unrecorded, `inherited`; one sentence in the instruction; 13 tests in test/provenance.test.ts; before/after probe (docs/validation/r19-provenance-*.txt)
+  - [x] 20.4 web store: `regenerate`, `editQuestion`, `setFigureChoice`, `confirmFigures`, `figuresOn`; `madeFor`; 23 tests in store.figures.test.ts
+  - [x] 20.5 web: figures panel and summary, question editor and wording note, busy and failure states, honest card and button wording, "Every number has a value", one "Explore another path from here", currency hint, quoted words in Known
+  - [x] 20.6 Playwright: 21 tests in e2e/firstuse.spec.ts (both viewports where it matters), journeys counted before and after in e2e/r19-journeys.spec.ts (R19_MODE), 2 recorded-real replays
+  - [x] 20.7 live check: 2 provider requests (`RF_LIVE=1 npm run r19:live`), drafts in docs/validation/r19-live-drafts.json
+  - [ ] 20.8 test the first 90 seconds with first-time visitors (not started; everything above is automated, one person has not yet used it)
+  - [ ] 20.9 check how often a real model models a figure as a choice instead of a number, with more than two questions (not started: the live budget was two requests)

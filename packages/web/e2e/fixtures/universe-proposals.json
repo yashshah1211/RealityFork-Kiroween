@@ -1,0 +1,164 @@
+{
+  "_about": "Schema-valid planner drafts (Proposal, see packages/core/src/reality/proposal.ts) for questions that are not built-in examples, used to prove that AI-drafted maps reach the adaptive scenery (Phase 2). Written by hand in the planner's format and checked by validateProposal in packages/web/src/atlas/environment/universes.test.ts; served by intercepting POST /api/plan, never sent to a provider. Numbers are left unknown, as the planner leaves them.",
+  "What if I started my own independent gaming company?": {
+    "interpretation": "You are thinking about leaving salaried work to make games independently. I compared building a first game on your own savings, building it with a publisher's support, and keeping your job while making games in your spare time.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Self-funded indie studio",
+        "description": "Leave your job and build a first game on your savings, working from a rented studio.",
+        "settings": [{ "variable": "funding", "value": "Own savings" }, { "variable": "workspace", "value": "Rented studio" }]
+      },
+      {
+        "name": "Publisher-backed team",
+        "description": "Pitch a prototype and build the game with a publisher's advance, sharing a co-working office.",
+        "settings": [{ "variable": "funding", "value": "Publisher advance" }, { "variable": "workspace", "value": "Co-working office" }]
+      },
+      {
+        "name": "Keep my job, make games at night",
+        "description": "Stay employed and build the game in your spare time at home.",
+        "settings": [{ "variable": "funding", "value": "Salary from my job" }, { "variable": "workspace", "value": "Spare room at home" }]
+      }
+    ],
+    "variables": [
+      { "key": "funding", "label": "How the work is paid for", "kind": "category", "unit": "", "options": ["Own savings", "Publisher advance", "Salary from my job"], "why": "Decides how long you can work before the game earns anything." },
+      { "key": "workspace", "label": "Where the work happens", "kind": "category", "unit": "", "options": ["Rented studio", "Co-working office", "Spare room at home"], "why": "Changes monthly costs and how you work with other people." },
+      { "key": "monthlyCosts", "label": "Monthly costs", "kind": "number", "unit": "per month", "options": [], "why": "Rent, tools, licences and living costs while you build." },
+      { "key": "savings", "label": "Savings available", "kind": "number", "unit": "", "options": [], "why": "How long you can keep going without an income." },
+      { "key": "monthsToRelease", "label": "Months until the first release", "kind": "number", "unit": "months", "options": [], "why": "Most of the risk comes before the first game is out." },
+      { "key": "teamSize", "label": "Team size", "kind": "number", "unit": "people", "options": [], "why": "More people can shorten the work but raise the costs." }
+    ],
+    "questions": ["How many months of living costs do your savings cover?", "Would a publisher want to see a prototype first?", "Who could you work with?"],
+    "formulas": [
+      { "label": "Months the savings last", "expression": "savings / monthlyCosts", "unit": "months", "condition": "monthlyCosts > 0", "explanation": "Only counts savings against costs; any income from the game is left out." }
+    ],
+    "possibilities": [
+      { "branch": "Self-funded indie studio", "text": "Full creative control over the game", "tone": "upside", "about": ["funding"] },
+      { "branch": "Self-funded indie studio", "text": "Savings run out before the game is finished", "tone": "challenge", "about": ["savings", "monthlyCosts"] },
+      { "branch": "Publisher-backed team", "text": "Deadlines and milestones set by the publisher", "tone": "challenge", "about": ["funding"] },
+      { "branch": "Keep my job, make games at night", "text": "Slower progress with less financial pressure", "tone": "uncertain", "about": [] },
+      { "branch": "all", "text": "The first game earns less than hoped", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["Your savings and monthly costs", "A publisher's terms for a first game"],
+    "limitations": ["Sales, platform fees and taxes are not modelled."]
+  },
+  "What if I opened a small café in my neighbourhood?": {
+    "interpretation": "You are considering opening a café near where you live. I compared running a small café yourself, hiring a barista from the start, and testing the idea with a coffee cart first.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Small café, run by me",
+        "description": "A café with a few tables, open mornings and lunchtimes, with you behind the counter.",
+        "settings": [{ "variable": "format", "value": "Café with seating" }, { "variable": "hireBarista", "value": "no" }]
+      },
+      {
+        "name": "Café with a hired barista",
+        "description": "The same café, with a barista hired from the first day.",
+        "settings": [{ "variable": "format", "value": "Café with seating" }, { "variable": "hireBarista", "value": "yes" }]
+      },
+      {
+        "name": "Coffee cart at the market first",
+        "description": "Sell coffee from a cart on market days before taking on a lease.",
+        "settings": [{ "variable": "format", "value": "Coffee cart" }, { "variable": "hireBarista", "value": "no" }]
+      }
+    ],
+    "variables": [
+      { "key": "format", "label": "Format", "kind": "category", "unit": "", "options": ["Café with seating", "Coffee cart"], "why": "Sets the rent, the fit-out and how many people you can serve." },
+      { "key": "hireBarista", "label": "Hire a barista", "kind": "boolean", "unit": "", "options": [], "why": "Adds wages but frees your time." },
+      { "key": "staffOnShift", "label": "Staff on shift", "kind": "number", "unit": "people", "options": [], "why": "How many people serve at once." },
+      { "key": "rent", "label": "Rent", "kind": "number", "unit": "per month", "options": [], "why": "Usually the largest fixed cost." },
+      { "key": "cupsPerDay", "label": "Cups sold per day", "kind": "number", "unit": "cups", "options": [], "why": "Depends on footfall and opening hours." },
+      { "key": "pricePerCup", "label": "Price per cup", "kind": "number", "unit": "", "options": [], "why": "Set by you, compared with nearby cafés." },
+      { "key": "costPerCup", "label": "Cost per cup", "kind": "number", "unit": "", "options": [], "why": "Coffee, milk, cups and card fees." }
+    ],
+    "questions": ["How many people pass the shopfront in the morning?", "What would the lease and fit-out cost?"],
+    "formulas": [
+      { "label": "Takings per day", "expression": "cupsPerDay * pricePerCup", "unit": "per day", "condition": "", "explanation": "Drinks only; food is left out." },
+      { "label": "Margin per day", "expression": "cupsPerDay * (pricePerCup - costPerCup)", "unit": "per day", "condition": "", "explanation": "Before rent and wages." }
+    ],
+    "possibilities": [
+      { "branch": "Small café, run by me", "text": "Long days behind the counter", "tone": "challenge", "about": ["hireBarista"] },
+      { "branch": "Café with a hired barista", "text": "More time to run the business", "tone": "upside", "about": ["hireBarista"] },
+      { "branch": "Coffee cart at the market first", "text": "Regular customers before any lease is signed", "tone": "upside", "about": ["format"] },
+      { "branch": "all", "text": "Quiet weeks in winter", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["Footfall on the street", "Lease terms for nearby units"],
+    "limitations": ["Food sales, equipment and taxes are not modelled."]
+  },
+  "What if our town council chose to restore the river's wetlands instead of building higher flood walls?": {
+    "interpretation": "Your town council is deciding how to reduce flooding from the river. I compared restoring the wetlands upstream, building higher flood walls along the town, and doing both in stages.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Restore the wetlands",
+        "description": "Let the river spread into restored wetlands upstream when it rises.",
+        "settings": [{ "variable": "approach", "value": "Wetland restoration" }]
+      },
+      {
+        "name": "Build higher flood walls",
+        "description": "Raise the walls along the river where it passes the town.",
+        "settings": [{ "variable": "approach", "value": "Higher flood walls" }]
+      },
+      {
+        "name": "Wetlands first, walls later",
+        "description": "Restore the wetlands now and raise the walls where they are still needed.",
+        "settings": [{ "variable": "approach", "value": "Wetlands and flood walls" }]
+      }
+    ],
+    "variables": [
+      { "key": "approach", "label": "Flood approach", "kind": "category", "unit": "", "options": ["Wetland restoration", "Higher flood walls", "Wetlands and flood walls"], "why": "The decision itself." },
+      { "key": "homesAtRisk", "label": "Homes at risk of flooding", "kind": "number", "unit": "homes", "options": [], "why": "From the flood maps for the town." },
+      { "key": "councilCost", "label": "Cost to the council", "kind": "number", "unit": "", "options": [], "why": "Needs estimates from engineers and ecologists." },
+      { "key": "yearsToComplete", "label": "Years to complete", "kind": "number", "unit": "years", "options": [], "why": "Wetlands take time to establish." },
+      { "key": "wetlandArea", "label": "Wetland area restored", "kind": "number", "unit": "hectares", "options": [], "why": "How much land can hold water when the river rises." }
+    ],
+    "questions": ["Which land upstream could hold water?", "How high would the walls need to be?", "Who owns the land along the river?"],
+    "formulas": [
+      { "label": "Cost per home protected", "expression": "councilCost / homesAtRisk", "unit": "per home", "condition": "homesAtRisk > 0", "explanation": "Treats every home at risk as protected, which neither approach guarantees." }
+    ],
+    "possibilities": [
+      { "branch": "Restore the wetlands", "text": "More birds and wildlife along the river", "tone": "upside", "about": ["approach"] },
+      { "branch": "Restore the wetlands", "text": "Farmland upstream floods more often", "tone": "challenge", "about": ["wetlandArea"] },
+      { "branch": "Build higher flood walls", "text": "Views of the river are blocked in the town", "tone": "challenge", "about": ["approach"] },
+      { "branch": "Wetlands first, walls later", "text": "Protection builds up over a longer time", "tone": "uncertain", "about": ["yearsToComplete"] },
+      { "branch": "all", "text": "Heavier storms than the plans allow for", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["Flood maps for the town", "Engineering and ecology cost estimates"],
+    "limitations": ["Insurance, property values and downstream effects are not modelled."]
+  },
+  "What if I could talk to my future self once a year?": {
+    "interpretation": "An imagined situation: one conversation a year with yourself from the future. I compared asking about the big decisions, asking only about everyday things, and choosing never to ask.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Ask about the big decisions",
+        "description": "Use each conversation to ask about the choices that matter most.",
+        "settings": [{ "variable": "askAbout", "value": "Big decisions" }]
+      },
+      {
+        "name": "Ask about everyday things",
+        "description": "Keep the conversations light: small choices and how things feel.",
+        "settings": [{ "variable": "askAbout", "value": "Everyday choices" }]
+      },
+      {
+        "name": "Never ask",
+        "description": "Know the conversation is possible, and choose not to have it.",
+        "settings": [{ "variable": "askAbout", "value": "Nothing" }]
+      }
+    ],
+    "variables": [
+      { "key": "askAbout", "label": "What you would ask about", "kind": "category", "unit": "", "options": ["Big decisions", "Everyday choices", "Nothing"], "why": "The choice this map is about." },
+      { "key": "trust", "label": "How far you would trust the answers", "kind": "category", "unit": "", "options": ["Fully", "Somewhat", "Not at all"], "why": "Changes how much each answer would shape what you do." },
+      { "key": "daysPreparing", "label": "Days spent preparing each year", "kind": "number", "unit": "days", "options": [], "why": "Time spent thinking about what to ask." }
+    ],
+    "questions": ["What would you most want to know?", "Would you change anything after hearing it?"],
+    "formulas": [],
+    "possibilities": [
+      { "branch": "Ask about the big decisions", "text": "Choices start to feel decided in advance", "tone": "challenge", "about": ["askAbout"] },
+      { "branch": "Ask about everyday things", "text": "Less worry about small things", "tone": "upside", "about": [] },
+      { "branch": "Never ask", "text": "Curiosity about the answers that were never heard", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["How you make decisions today"],
+    "limitations": ["An imagined situation: there is nothing to measure."]
+  }
+}

@@ -1,0 +1,281 @@
+/*
+ * Explore in 3D: the overlays on the scene (title, labels, the future card, controls). Built on the design tokens
+ * (design/tokens.css); the universe's sky colours arrive as --world-* on .atlas-root.
+ */
+
+/* While the scene is on screen, the page is the sky and the header floats over it. */
+.rf:has(.atlas-root) { min-height: 100vh; }
+.rf:has(.atlas-root) .rf-top { position: fixed; top: 0; left: 0; right: 0; max-width: none; z-index: 20; pointer-events: none; }
+.rf:has(.atlas-root) .rf-top > * { pointer-events: auto; }
+.rf:has(.atlas-root) .rf-banners { position: fixed; top: 4rem; left: 50%; transform: translateX(-50%); width: min(720px, 92vw); z-index: 30; padding: 0; }
+.rf:has(.atlas-root) .rf-main { padding: 0; max-width: none; }
+
+.rf .atlas-root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  color: var(--moon);
+  z-index: 1;
+}
+.rf .atlas-opening { display: grid; place-items: center; color: var(--moon-2); font-family: var(--display); font-style: italic; font-size: var(--fs-24); }
+.rf .atlas-stage {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 42% at 74% 16%, rgba(214, 222, 255, 0.10), transparent 70%),
+    radial-gradient(ellipse 130% 60% at 50% 105%, color-mix(in srgb, var(--world-horizon) 85%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--world-top), var(--world-mid) 55%, var(--world-horizon));
+}
+.rf .atlas-canvas { display: block; width: 100%; height: 100%; touch-action: none; transition: opacity var(--t-slow) ease; }
+.rf .atlas-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 125% 95% at 42% 46%, transparent 56%, rgba(2, 3, 12, 0.6) 100%); }
+/* Phones: the horizon sits under the title, so a little dusk keeps the words clear of the distant lights. */
+.rf .atlas-root.narrow .atlas-vignette { background: linear-gradient(180deg, rgba(4, 5, 18, 0.88) 0, rgba(4, 5, 18, 0.55) 9rem, transparent 14rem), radial-gradient(ellipse 125% 95% at 50% 40%, transparent 56%, rgba(2, 3, 12, 0.55) 100%); }
+
+/* Title: the question, and the line of futures that led here */
+.rf .atlas-top { position: absolute; top: 4.4rem; left: var(--gutter); max-width: min(44vw, 38rem); z-index: 5; pointer-events: none; text-shadow: 0 1px 14px rgba(2, 3, 12, 0.85); }
+.rf .atlas-top > * { pointer-events: auto; }
+.rf .atlas-kind { margin: 0 0 var(--s-1); font-family: var(--display); font-style: italic; font-weight: 500; font-size: var(--fs-18); color: var(--moon-2); }
+.rf .atlas-question { font-family: var(--display); font-weight: 600; font-size: clamp(1.6rem, 2.4vw, 2.3rem); line-height: 1.08; letter-spacing: -0.01em; color: var(--moon); }
+.rf .atlas-crumbs ol { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem 0.4rem; margin: var(--s-3) 0 0; padding: 0; font-size: var(--fs-14); }
+.rf .atlas-crumbs li { display: flex; align-items: center; gap: 0.4rem; color: var(--moon-3); }
+.rf .atlas-crumbs li + li::before { content: ""; width: 1.1rem; height: 1px; background: linear-gradient(90deg, var(--thread), var(--lantern)); opacity: 0.8; }
+.rf .atlas-crumbs button { font: inherit; color: var(--moon-2); background: none; border: 0; padding: 0.2rem 0.1rem; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(214, 220, 255, 0.28); text-underline-offset: 0.22em; }
+.rf .atlas-crumbs button:hover { color: #fff; text-decoration-color: currentColor; }
+.rf .atlas-crumbs [aria-current] { color: var(--lantern-hi); font-weight: 600; }
+
+/* Labels that float above the islands (positioned by the scene every frame) */
+.rf .atlas-labels { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+.rf .atlas-label {
+  position: absolute; top: 0; left: 0; display: grid; justify-items: center; gap: 0; max-width: 15rem;
+  font: inherit; text-align: center; color: var(--moon); cursor: pointer; pointer-events: auto;
+  background: rgba(8, 10, 28, 0.62); border: 1px solid var(--line); border-radius: var(--r-card); padding: 0.28rem 0.8rem 0.36rem;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: border-color var(--t-quick) ease, background var(--t-quick) ease; will-change: transform, opacity;
+}
+/* Out of view or covered: not shown, not focusable, not announced. */
+.rf .atlas-label[data-hidden="true"] { visibility: hidden; }
+.rf .atlas-label:hover, .rf .atlas-label.hover { border-color: rgba(214, 220, 255, 0.5); background: rgba(18, 20, 44, 0.86); }
+.rf .atlas-label.on-path { border-color: color-mix(in srgb, var(--lantern) 45%, transparent); }
+.rf .atlas-label[aria-current] { border-color: var(--lantern); }
+.rf .atlas-label.what-if { border-style: dashed; border-color: color-mix(in srgb, var(--hypo) 70%, transparent); }
+.rf .al-role { font-family: var(--display); font-style: italic; font-weight: 500; font-size: var(--fs-14); line-height: 1.2; color: var(--moon-3); }
+.rf .al-name { font-family: var(--display); font-weight: 600; font-size: var(--fs-18); line-height: 1.15; overflow-wrap: anywhere; }
+.rf .atlas-label.role-ancestor .al-name, .rf .atlas-label.role-sibling .al-name { font-size: var(--fs-16); }
+/* The selected world is named in the scene too: the lantern colour marks where you are. */
+.rf .atlas-label.role-selected { border-color: color-mix(in srgb, var(--lantern) 70%, transparent); background: rgba(10, 10, 28, 0.72); padding: 0.32rem 1rem 0.42rem; }
+.rf .atlas-label.role-selected .al-role { color: var(--lantern-hi); }
+.rf .atlas-label.role-selected .al-name { font-size: var(--fs-21); }
+
+/* The future card */
+.rf .atlas-panel-wrap { position: absolute; right: var(--s-4); bottom: var(--s-4); top: 4.6rem; width: min(23rem, 32vw); z-index: 6; display: flex; flex-direction: column; justify-content: flex-end; pointer-events: none; }
+.rf .atlas-panel-wrap > * { pointer-events: auto; }
+.rf .atlas-panel {
+  display: flex; flex-direction: column; min-height: 0; max-height: 100%;
+  background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-sheet);
+  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); box-shadow: var(--shadow-float);
+}
+.rf .ap-scroll { overflow-y: auto; min-height: 0; padding: var(--s-5) var(--s-5) var(--s-3); display: grid; gap: var(--s-3); align-content: start; scrollbar-width: thin; scrollbar-color: rgba(214, 220, 255, 0.22) transparent; }
+.rf .ap-head { display: grid; gap: var(--s-2); padding-right: 2rem; }
+.rf .ap-kicker { font-family: var(--display); font-style: italic; font-weight: 500; font-size: var(--fs-18); color: var(--moon-2); }
+.rf .ap-kicker .link-btn { font-style: italic; }
+.rf .ap-title { font-family: var(--display); font-weight: 600; font-size: var(--fs-30); line-height: 1.05; letter-spacing: -0.01em; color: var(--moon); outline: none; overflow-wrap: anywhere; }
+.rf .ap-title:focus-visible { outline: 2px solid var(--lantern-hi); outline-offset: 4px; }
+.rf .ap-desc { color: var(--moon-2); font-size: var(--fs-16); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rf .ap-illustrative { display: none; font-size: var(--fs-12); color: var(--moon-3); }
+.rf .atlas-root.narrow .ap-illustrative { display: block; order: 10; }
+.rf .ap-world { font-size: var(--fs-13); line-height: 1.45; color: var(--moon-3); border-left: 1px dashed var(--line-strong); padding-left: var(--s-3); margin-top: var(--s-1); }
+.rf .ap-section { border-top: 1px solid var(--line); padding-top: var(--s-3); }
+.rf .ap-section > summary { list-style: none; display: flex; align-items: center; gap: var(--s-2); font-size: var(--fs-14); font-weight: 600; color: var(--moon-2); min-height: 1.75rem; }
+.rf .ap-section > summary::-webkit-details-marker { display: none; }
+.rf .ap-section > summary::after { content: ""; width: 0.45rem; height: 0.45rem; margin-left: auto; border-right: 1.5px solid var(--moon-3); border-bottom: 1.5px solid var(--moon-3); transform: rotate(45deg) translate(-2px, -2px); transition: transform var(--t-quick) ease; flex: none; }
+.rf .ap-section:not([open]) > summary::after { transform: rotate(-45deg); }
+.rf .ap-section > summary:hover { color: var(--moon); }
+.rf .ap-section-title { flex: 0 1 auto; font-weight: 500; color: var(--moon-3); font-size: var(--fs-13); }
+.rf .ap-count { font-size: var(--fs-12); font-weight: 700; color: var(--moon-3); border: 1px solid var(--line); border-radius: var(--r-chip); padding: 0 0.45rem; font-variant-numeric: tabular-nums; }
+.rf .ap-section-body { display: grid; gap: var(--s-2); padding-top: var(--s-3); font-size: var(--fs-14); }
+.rf .ap-muted { color: var(--moon-3); font-size: var(--fs-14); }
+.rf .ap-chips, .rf .ap-unknown { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.rf .ap-chips li { font-size: var(--fs-13); color: var(--moon); background: rgba(214, 220, 255, 0.06); border: 1px solid var(--line); border-radius: var(--r-field); padding: 0.2rem 0.6rem; overflow-wrap: anywhere; }
+.rf .ap-chips li.folded { display: none; }
+.rf .ap-changes { display: grid; gap: var(--s-2); justify-items: start; }
+.rf .ap-more { font-size: var(--fs-13); }
+.rf .ap-chips li.hypo, .rf .ap-list li.hypo { border-style: dashed; border-color: color-mix(in srgb, var(--hypo) 60%, transparent); color: var(--hypo); }
+.rf .ap-list { margin: 0; padding-left: 1rem; display: grid; gap: var(--s-1); }
+.rf .ap-scope { font-size: var(--fs-12); color: var(--moon-3); margin-left: var(--s-1); }
+.rf .ap-calc { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+.rf .ap-calc li { display: grid; grid-template-columns: 1fr auto; gap: 0.1rem var(--s-3); align-items: baseline; }
+.rf .ap-calc-label { color: var(--moon-2); }
+.rf .ap-calc-value { font-size: var(--fs-18); font-weight: 700; color: var(--moon); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rf .ap-calc li.wait { grid-template-columns: 1fr; }
+.rf .ap-calc li.folded { display: none; }
+.rf .ap-links { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); }
+.rf .ap-unknowns { display: grid; gap: var(--s-2); border-top: 1px solid var(--line); padding-top: var(--s-3); }
+.rf .ap-unknowns-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); font-size: var(--fs-14); font-weight: 600; color: var(--moon-2); }
+.rf .ap-unknowns-title .ap-muted { font-weight: 400; font-size: var(--fs-13); }
+.rf .ap-uses { grid-column: 1 / -1; font-size: var(--fs-12); color: var(--moon-3); display: none; }
+.rf .ap-calc.with-sources .ap-uses { display: block; }
+.rf .ap-poss { display: grid; gap: var(--s-1); }
+.rf .ap-poss h4 { margin: var(--s-1) 0 0; font-size: var(--fs-14); color: var(--moon); }
+.rf .ap-caption { font-size: var(--fs-12); color: var(--moon-3); }
+.rf .ap-poss ul { margin: 0; padding-left: 1rem; display: grid; gap: 0.2rem; }
+.rf .ap-tag { margin-left: var(--s-2); font-size: var(--fs-12); color: var(--moon-3); border: 1px solid var(--line); border-radius: var(--r-chip); padding: 0 0.4rem; }
+/* Unknowns are questions waiting in the mist: dashed until answered */
+.rf .ap-ask { font: inherit; font-size: var(--fs-14); color: var(--moon); background: transparent; border: 1px dashed var(--line-strong); border-radius: var(--r-chip); padding: 0.3rem 0.75rem; cursor: pointer; }
+.rf .ap-ask:hover { border-style: solid; border-color: var(--lantern); background: var(--lantern-glow); }
+.rf .ap-question { display: grid; gap: var(--s-3); }
+.rf .ap-actions { padding: var(--s-3) var(--s-5) var(--s-4); border-top: 1px solid var(--line); display: grid; gap: var(--s-2); }
+.rf .ap-actions .ap-branch { width: 100%; }
+.rf .ap-actions-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2); }
+.rf .ap-actions-row .btn { min-height: 2.5rem; padding: 0.45rem 1.1rem; }
+.rf .atlas-link { font: inherit; color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(205, 202, 255, 0.4); text-underline-offset: 0.22em; }
+
+/* The standard view's sheets and cards, inside the card: the same content, laid out for a narrow column */
+.rf .ap-sheet { display: grid; gap: var(--s-3); border-top: 1px solid var(--line); padding-top: var(--s-4); animation: rf-enter var(--t-base) var(--ease-out) both; }
+.rf .atlas-panel .sheet, .rf .atlas-panel .question-card, .rf .atlas-panel .next-card { background: transparent; border: 0; box-shadow: none; padding: 0; animation: none; border-radius: 0; }
+.rf .atlas-panel .sheet h3, .rf .atlas-panel .q-prompt, .rf .atlas-panel .next-card h3 { font-size: var(--fs-24); outline: none; }
+.rf .atlas-panel .name-path .row { flex-direction: column; align-items: stretch; }
+.rf .atlas-panel .name-path .row input, .rf .atlas-panel .q-answer input { flex: 1 1 auto; width: 100%; }
+.rf .atlas-panel .name-path .row .btn { align-self: flex-start; }
+.rf .atlas-panel .q-answer { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+.rf .atlas-panel .q-answer .btn { grid-column: 1 / -1; justify-self: start; }
+.rf .atlas-panel .choice { padding: var(--s-3); }
+.rf .atlas-panel .whatif-note, .rf .atlas-panel .change-note { background: color-mix(in srgb, var(--hypo) 7%, transparent); border: 1px solid color-mix(in srgb, var(--hypo) 30%, transparent); border-radius: var(--r-card); padding: var(--s-3) var(--s-4); }
+.rf .atlas-panel .rv-group .check { padding: var(--s-2); }
+.rf .ap-back { justify-self: start; font-size: var(--fs-14); margin-top: var(--s-1); }
+/* Another AI look, offered because suggestions may no longer hold: violet, the colour of what the AI wrote */
+.rf .ap-look { display: grid; gap: var(--s-2); padding: var(--s-3) var(--s-4); border: 1px solid color-mix(in srgb, var(--ai) 38%, transparent); border-radius: var(--r-card); background: color-mix(in srgb, var(--ai) 8%, transparent); }
+.rf .ap-look-title { font-weight: 600; font-size: var(--fs-14); color: var(--moon); }
+.rf .ap-form { display: grid; gap: var(--s-2); }
+.rf .ap-form input { width: 100%; }
+.rf .ap-form-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); }
+.rf .ap-add { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-3); font-size: var(--fs-13); margin-top: var(--s-1); }
+.rf .ap-add .link-btn, .rf .ap-add-link { font-size: var(--fs-13); }
+.rf .ap-add-link { justify-self: start; }
+.rf .ap-known .known-item { font-size: var(--fs-14); }
+.rf .ap-known .known-text { flex-basis: 100%; }
+.rf .ap-known .add-thought input { flex-basis: 100%; }
+.rf .ap-verify > summary { font-size: var(--fs-13); color: var(--link); width: fit-content; }
+.rf .ap-verify[open] > summary { margin-bottom: var(--s-2); }
+.rf .ap-poss li { overflow-wrap: anywhere; }
+.rf .ap-poss li + li { margin-top: 0.2rem; }
+.rf .ap-poss .cons-why { font-size: var(--fs-13); }
+.rf .ap-chip { font: inherit; font-size: var(--fs-13); color: var(--moon); text-align: left; cursor: pointer; }
+.rf .ap-chips li:has(.ap-chip):hover { border-color: var(--lantern); background: var(--lantern-glow); }
+.rf .ap-formula code { font-size: 0.95em; }
+.rf .ap-calc .ap-tag { margin-left: var(--s-2); }
+.rf .ap-sims { gap: 0; }
+.rf .ap-sims .sim-row:first-child { padding-top: 0; }
+.rf .ap-actions .saved-note { justify-content: center; }
+
+/* The compact story (the default card): what is different, in the picture too, and up to three outcomes. */
+.rf .ap-was { font-size: var(--fs-12); color: var(--moon-3); font-weight: 400; }
+.rf .ap-scene { display: grid; gap: 0.2rem; font-size: var(--fs-13); line-height: 1.45; color: var(--moon-2); border-left: 1px dashed var(--line-strong); padding-left: var(--s-3); }
+.rf .ap-scene-title { font-weight: 600; color: var(--moon-2); }
+.rf .ap-scene-title .ap-muted { font-size: var(--fs-12); font-weight: 400; }
+.rf .ap-scene ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.1rem; }
+.rf .ap-scene li { color: var(--moon); overflow-wrap: anywhere; }
+.rf .ap-scene-same { color: var(--moon-3); }
+.rf .ap-compact { display: grid; gap: var(--s-3); border-top: 1px solid var(--line); padding-top: var(--s-3); }
+.rf .ap-outcomes-wrap { display: grid; gap: var(--s-2); justify-items: start; }
+.rf .ap-outcomes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); width: 100%; }
+.rf .ap-o { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.15rem var(--s-3); align-items: baseline; }
+.rf .ap-o-label { color: var(--moon); font-size: var(--fs-14); }
+.rf .ap-o-value { font-size: var(--fs-18); font-weight: 700; color: var(--moon); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rf .ap-o-note { grid-column: 1 / -1; font-size: var(--fs-12); line-height: 1.5; color: var(--moon-3); }
+.rf .ap-o-note .badge { margin-right: 0.15rem; }
+.rf .ap-run { min-height: 2rem; padding: 0.2rem 0.85rem; font-size: var(--fs-13); margin-top: 0.25rem; }
+.rf .ap-next { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-2); font-size: var(--fs-13); }
+.rf .ap-next .ap-muted { font-size: var(--fs-13); }
+.rf .ap-details { display: grid; gap: var(--s-3); }
+.rf .ap-whatif > summary { font-size: var(--fs-13); font-weight: 600; color: var(--link); cursor: pointer; width: fit-content; }
+.rf .ap-whatif > summary .ap-muted { font-size: var(--fs-12); font-weight: 400; }
+.rf .ap-whatif[open] > summary { margin-bottom: var(--s-2); }
+.rf .ap-whatif .whatif-note > .eyebrow { display: none; }
+.rf .ap-classic { font-size: var(--fs-13); border-top: 1px solid var(--line); padding-top: var(--s-3); }
+.rf .ap-classic .ap-muted { font-size: var(--fs-12); }
+.rf .ap-actions-row .ap-details-toggle { margin-left: auto; }
+.rf .atlas-seg-count { font-size: var(--fs-12); font-weight: 700; color: var(--moon-3); border: 1px solid var(--line); border-radius: var(--r-chip); padding: 0 0.42rem; font-variant-numeric: tabular-nums; }
+.rf .atlas-seg button[aria-pressed="true"] .atlas-seg-count { color: var(--lantern-hi); border-color: color-mix(in srgb, var(--lantern) 45%, transparent); }
+
+.rf .atlas-collapse { position: absolute; top: 0.85rem; right: 0.85rem; width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--surface-raised); color: var(--moon-2); cursor: pointer; font-size: var(--fs-18); line-height: 1; z-index: 2; }
+.rf .atlas-collapse:hover { background: color-mix(in srgb, var(--surface-raised), #fff 10%); color: #fff; }
+.rf .atlas-card { position: relative; display: flex; flex-direction: column; min-height: 0; max-height: 100%; }
+.rf .atlas-reopen { align-self: flex-end; display: grid; gap: 0.1rem; text-align: left; font: inherit; color: var(--moon); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-card); padding: var(--s-3) var(--s-4); cursor: pointer; backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); box-shadow: var(--shadow-float); }
+.rf .atlas-reopen-name { font-family: var(--display); font-weight: 600; font-size: var(--fs-21); }
+.rf .atlas-reopen-hint { font-size: var(--fs-13); color: var(--lantern-hi); }
+
+/* Controls */
+.rf .atlas-bottom { position: absolute; left: var(--gutter); bottom: var(--s-4); z-index: 6; display: grid; gap: var(--s-2); justify-items: start; max-width: calc(100vw - min(23rem, 32vw) - 4rem); pointer-events: none; }
+.rf .atlas-bottom > * { pointer-events: auto; }
+.rf .atlas-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
+.rf .atlas-seg, .rf .atlas-nav { display: flex; background: rgba(8, 10, 28, 0.72); border: 1px solid var(--line); border-radius: var(--r-chip); padding: 0.2rem; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.rf .atlas-seg button, .rf .atlas-nav button, .rf .atlas-recenter { font: inherit; font-size: var(--fs-14); color: var(--moon-2); background: none; border: 0; border-radius: var(--r-chip); padding: 0.42rem 0.9rem; cursor: pointer; display: inline-flex; gap: 0.35rem; align-items: center; min-height: 2.35rem; }
+.rf .atlas-seg button[aria-pressed="true"] { background: var(--lantern-glow); color: var(--lantern-hi); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lantern) 45%, transparent); }
+.rf .atlas-nav button:disabled { opacity: 0.32; cursor: default; }
+.rf .atlas-seg button:hover:not([aria-pressed="true"]), .rf .atlas-nav button:hover:not(:disabled), .rf .atlas-recenter:hover { background: rgba(214, 220, 255, 0.08); color: #fff; }
+.rf .atlas-recenter { background: rgba(8, 10, 28, 0.72); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.rf .atlas-note { margin: 0; font-size: var(--fs-12); color: rgba(214, 220, 245, 0.66); text-shadow: 0 1px 8px rgba(2, 3, 12, 0.9); }
+.rf .atlas-hint { color: rgba(214, 220, 245, 0.5); }
+.rf .atlas-status { display: grid; gap: 0.3rem; font-size: var(--fs-13); color: var(--moon-2); max-width: min(32rem, 60vw); }
+.rf .atlas-status > span { background: rgba(8, 10, 28, 0.78); border: 1px solid var(--line); border-radius: var(--r-field); padding: 0.35rem 0.7rem; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.rf .atlas-status:empty { display: none; }
+
+/* Scenery: what the picture is drawn as, and the user's own choice */
+.rf .atlas-scenery { position: relative; }
+.rf .atlas-scenery > summary { list-style: none; display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.35rem; padding: 0.3rem 0.95rem 0.3rem 0.75rem; font-size: var(--fs-14); color: var(--moon-2); background: rgba(8, 10, 28, 0.72); border: 1px solid var(--line); border-radius: var(--r-chip); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); cursor: pointer; }
+.rf .atlas-scenery > summary::-webkit-details-marker { display: none; }
+.rf .atlas-scenery > summary:hover, .rf .atlas-scenery[open] > summary { color: #fff; border-color: var(--line-strong); }
+.rf .sc-dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0 12%, var(--world-horizon) 60%); box-shadow: 0 0 0 1px var(--line-strong); }
+.rf .sc-chosen { font-size: var(--fs-12); color: var(--lantern-hi); }
+.rf .sc-panel { position: absolute; left: 0; bottom: calc(100% + 0.5rem); width: min(21rem, 86vw); display: grid; gap: var(--s-3); padding: var(--s-4); background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: var(--r-card); box-shadow: var(--shadow-float); }
+.rf .sc-why { font-size: var(--fs-14); color: var(--moon); }
+.rf .sc-panel fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
+.rf .sc-panel legend { font-size: var(--fs-13); font-weight: 600; color: var(--moon-3); margin-bottom: var(--s-1); }
+.rf .sc-panel label { display: flex; align-items: center; gap: var(--s-2); padding: 0.3rem 0.4rem; border-radius: var(--r-field); font-size: var(--fs-14); color: var(--moon-2); cursor: pointer; }
+.rf .sc-panel label:hover { background: var(--surface-hover); color: #fff; }
+.rf .sc-panel label.on { color: var(--moon); }
+.rf .sc-note { font-size: var(--fs-12); color: var(--moon-3); }
+.rf .sc-path { display: grid; gap: var(--s-1); font-size: var(--fs-13); color: var(--moon-2); border-left: 1px dashed var(--line-strong); padding-left: var(--s-3); }
+.rf .sc-path-name { font-family: var(--display); font-weight: 600; font-size: var(--fs-16); color: var(--moon); }
+
+
+/* Phones: the card becomes a sheet at the bottom; the world keeps the top of the screen. */
+.rf .atlas-root.narrow .atlas-top { top: 4.1rem; left: var(--s-4); right: var(--s-4); max-width: none; }
+.rf .atlas-root.narrow .atlas-kind { display: none; }
+.rf .atlas-root.narrow .atlas-question { font-size: var(--fs-21); line-height: 1.15; }
+.rf .atlas-root.narrow .atlas-crumbs ol { flex-wrap: nowrap; overflow-x: auto; font-size: var(--fs-13); margin-top: var(--s-2); scrollbar-width: none; }
+.rf .atlas-root.narrow .atlas-crumbs li { white-space: nowrap; }
+.rf .atlas-root.narrow .atlas-panel-wrap { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 44vh; }
+.rf .atlas-root.narrow.panel-closed .atlas-panel-wrap { height: auto; padding: 0 var(--s-3) var(--s-3); }
+.rf .atlas-root.narrow .atlas-card { height: 100%; }
+.rf .atlas-root.narrow .atlas-panel { border-radius: var(--r-sheet) var(--r-sheet) 0 0; border-bottom: 0; height: 100%; }
+.rf .atlas-root.narrow .ap-scroll { padding: var(--s-4) var(--s-4) var(--s-2); }
+.rf .atlas-root.narrow .ap-title { font-size: var(--fs-24); padding-right: 3.6rem; }
+.rf .atlas-root.narrow .ap-head { padding-right: 0; }
+.rf .atlas-root.narrow .ap-actions { padding: var(--s-2) var(--s-4) calc(var(--s-3) + env(safe-area-inset-bottom)); }
+.rf .atlas-root.narrow .atlas-collapse { width: auto; height: 2.25rem; border-radius: var(--r-chip); padding: 0 0.85rem; font-size: var(--fs-13); }
+.rf .atlas-root.narrow .atlas-reopen { align-self: stretch; }
+.rf .atlas-root.narrow .atlas-bottom { left: 50%; transform: translateX(-50%); bottom: calc(44vh + var(--s-2)); width: max-content; max-width: calc(100vw - 1rem); justify-items: center; }
+.rf .atlas-root.narrow .atlas-bar { position: relative; justify-content: center; gap: 0.35rem; pointer-events: none; }
+.rf .atlas-root.narrow .atlas-bar > * { pointer-events: auto; }
+.rf .atlas-root.narrow.panel-closed .atlas-bottom { bottom: 6.4rem; }
+.rf .atlas-root.narrow .atlas-nav-text, .rf .atlas-root.narrow .atlas-note, .rf .atlas-root.narrow .atlas-recenter { display: none; }
+.rf .atlas-root.narrow .atlas-seg button, .rf .atlas-root.narrow .atlas-nav button { padding: 0.4rem 0.7rem; min-height: 2.75rem; min-width: 2.75rem; justify-content: center; }
+.rf .atlas-root.narrow .atlas-scenery { position: static; }
+.rf .atlas-root.narrow .atlas-scenery > summary { min-height: 2.75rem; min-width: 2.75rem; justify-content: center; padding: 0.3rem 0.75rem; }
+.rf .atlas-root.narrow .sc-name, .rf .atlas-root.narrow .sc-chosen { display: none; }
+.rf .atlas-root.narrow .sc-panel { left: 50%; transform: translateX(-50%); max-height: 34vh; overflow-y: auto; }
+.rf .atlas-root.narrow .atlas-status { max-width: calc(100vw - 2rem); text-align: center; }
+.rf .atlas-root.narrow .atlas-label { max-width: 10.5rem; padding: 0.22rem 0.6rem 0.3rem; }
+.rf .atlas-root.narrow .al-name { font-size: var(--fs-16); }
+.rf .atlas-root.narrow .al-role { font-size: var(--fs-13); }
+
+@media (max-width: 1399px) { .rf .atlas-hint { display: none; } }
+
+/* Phones and touch screens: no backdrop blur. Blurring what is behind a panel means redoing the blur on every frame
+   of the moving scene, which costs a lot at high pixel densities; near-opaque surfaces read the same. */
+.rf .atlas-root.narrow .atlas-panel, .rf .atlas-root.narrow .atlas-reopen { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--surface-strong); }
+.rf .atlas-root.narrow .atlas-label, .rf .atlas-root.narrow .atlas-seg, .rf .atlas-root.narrow .atlas-nav, .rf .atlas-root.narrow .atlas-status > span, .rf .atlas-root.narrow .atlas-scenery > summary { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(8, 10, 28, 0.9); }
+@media (pointer: coarse) {
+  .rf .atlas-panel, .rf .atlas-reopen, .rf .atlas-label, .rf .atlas-seg, .rf .atlas-nav, .rf .atlas-recenter, .rf .atlas-status > span, .rf .atlas-scenery > summary { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .rf .atlas-panel { background: var(--surface-strong); }
+}

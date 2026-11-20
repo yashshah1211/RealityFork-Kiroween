@@ -1,0 +1,27 @@
+name: Verify RealityFork
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run benchmark
+      - run: npx playwright install --with-deps chromium
+      # Scope this PR's browser gate to the affected AI journeys (R15 adds reactive.spec.ts); the pre-existing CSV mobile overflow is tracked separately.
+      - run: npm run e2e --workspace @realityfork/web -- e2e/planner.spec.ts e2e/experience.spec.ts e2e/reactive.spec.ts

@@ -1,0 +1,297 @@
+{
+  "schema": "realityfork.realities/1",
+  "realities": [
+    {
+      "schema": "realityfork.reality/1",
+      "id": "fx1",
+      "question": "What if I moved from Mumbai to London?",
+      "description": "Money and everyday life in two cities. Amounts are per month in one currency (£, converted).",
+      "questions": [
+        "Would I save more or less each month?",
+        "What would daily life feel like?"
+      ],
+      "variables": [
+        {
+          "key": "city",
+          "label": "City",
+          "kind": "category",
+          "unit": "",
+          "options": [
+            "Mumbai",
+            "London"
+          ],
+          "source": "",
+          "uncertainty": ""
+        },
+        {
+          "key": "netIncome",
+          "label": "Take-home pay",
+          "kind": "number",
+          "unit": "£ per month",
+          "options": [],
+          "source": "Illustrative example value, not data. Replace it with your own.",
+          "uncertainty": "Depends on the job offer."
+        },
+        {
+          "key": "rent",
+          "label": "Rent",
+          "kind": "number",
+          "unit": "£ per month",
+          "options": [],
+          "source": "Illustrative example value, not data. Replace it with your own.",
+          "uncertainty": "Varies a lot by area."
+        },
+        {
+          "key": "livingCosts",
+          "label": "Food, transport and bills",
+          "kind": "number",
+          "unit": "£ per month",
+          "options": [],
+          "source": "Illustrative example value, not data. Replace it with your own.",
+          "uncertainty": "Rough guess."
+        },
+        {
+          "key": "remoteWork",
+          "label": "Work from home",
+          "kind": "boolean",
+          "unit": "",
+          "options": [],
+          "source": "",
+          "uncertainty": ""
+        },
+        {
+          "key": "commuteMinutes",
+          "label": "Commute each way",
+          "kind": "number",
+          "unit": "minutes",
+          "options": [],
+          "source": "Illustrative example value, not data. Replace it with your own.",
+          "uncertainty": ""
+        },
+        {
+          "key": "movingCost",
+          "label": "One-off moving and visa costs",
+          "kind": "number",
+          "unit": "£",
+          "options": [],
+          "source": "Unknown until I get quotes.",
+          "uncertainty": "Unknown"
+        }
+      ],
+      "formulas": [
+        {
+          "key": "monthlySavings",
+          "label": "Saved each month",
+          "expression": "netIncome - rent - livingCosts",
+          "unit": "£ per month",
+          "condition": "",
+          "note": "",
+          "reviewed": false
+        },
+        {
+          "key": "yearlySavings",
+          "label": "Saved in the first year",
+          "expression": "monthlySavings * 12 - movingCost",
+          "unit": "£",
+          "condition": "",
+          "note": "",
+          "reviewed": false
+        },
+        {
+          "key": "savingsRate",
+          "label": "Share of pay saved",
+          "expression": "round(monthlySavings / netIncome * 100, 1)",
+          "unit": "%",
+          "condition": "netIncome > 0",
+          "note": "",
+          "reviewed": false
+        },
+        {
+          "key": "commuteHours",
+          "label": "Commuting per week",
+          "expression": "if(remoteWork, 0, commuteMinutes * 2 * 5 / 60)",
+          "unit": "hours",
+          "condition": "",
+          "note": "",
+          "reviewed": false
+        }
+      ],
+      "simulations": [],
+      "branches": [
+        {
+          "id": "fx2",
+          "parentId": null,
+          "name": "Stay in Mumbai",
+          "description": "The starting reality, as things are now.",
+          "values": {
+            "city": "Mumbai",
+            "netIncome": 1400,
+            "rent": 350,
+            "livingCosts": 400,
+            "remoteWork": false,
+            "commuteMinutes": 50,
+            "movingCost": 0
+          },
+          "possibilities": [
+            {
+              "text": "Close to family and friends",
+              "likelihood": "likely",
+              "note": "",
+              "id": "fx3"
+            }
+          ],
+          "parentFingerprint": null,
+          "fingerprint": "7e34a12e41a2625a43deb4f9e6a1cd41c8dfef6ac8261aebc17d5fc90cd027d7"
+        },
+        {
+          "id": "fx4",
+          "parentId": "fx2",
+          "name": "Move to London",
+          "description": "Same kind of job, London salary and rent.",
+          "values": {
+            "city": "London",
+            "netIncome": 3100,
+            "rent": 1500,
+            "livingCosts": 900,
+            "remoteWork": false,
+            "commuteMinutes": 40,
+            "movingCost": null
+          },
+          "possibilities": [
+            {
+              "text": "Close to family and friends",
+              "likelihood": "likely",
+              "note": "",
+              "id": "fx3"
+            },
+            {
+              "text": "Faster career growth",
+              "likelihood": "possible",
+              "note": "My hope, not evidence.",
+              "id": "fx5"
+            },
+            {
+              "text": "Lonely for the first year",
+              "likelihood": "possible",
+              "note": "",
+              "id": "fx6"
+            }
+          ],
+          "parentFingerprint": "7e34a12e41a2625a43deb4f9e6a1cd41c8dfef6ac8261aebc17d5fc90cd027d7",
+          "fingerprint": "ef00821e08b309c22c2e3be9dbfa7ed5802a63924208254988b332b24ea53b55"
+        },
+        {
+          "id": "fx7",
+          "parentId": "fx4",
+          "name": "London, remote job",
+          "description": "As above, but working from home.",
+          "values": {
+            "city": "London",
+            "netIncome": 2900,
+            "rent": 1250,
+            "livingCosts": 900,
+            "remoteWork": true,
+            "commuteMinutes": 40,
+            "movingCost": null
+          },
+          "possibilities": [
+            {
+              "text": "Close to family and friends",
+              "likelihood": "likely",
+              "note": "",
+              "id": "fx3"
+            },
+            {
+              "text": "Faster career growth",
+              "likelihood": "possible",
+              "note": "My hope, not evidence.",
+              "id": "fx5"
+            },
+            {
+              "text": "Lonely for the first year",
+              "likelihood": "possible",
+              "note": "",
+              "id": "fx6"
+            }
+          ],
+          "parentFingerprint": "ef00821e08b309c22c2e3be9dbfa7ed5802a63924208254988b332b24ea53b55",
+          "fingerprint": "f283491bf09e46e07847038df4f04c0b6a11d016a4be0a9d2c371dadd39b12bf"
+        }
+      ]
+    },
+    {
+      "schema": "realityfork.reality/1",
+      "id": "fx8",
+      "question": "What if our family adopted a dog?",
+      "description": "",
+      "questions": [],
+      "variables": [
+        {
+          "key": "monthlyFoodCost",
+          "label": "Monthly food cost",
+          "kind": "number",
+          "unit": "£ per month",
+          "options": [],
+          "source": "",
+          "uncertainty": ""
+        },
+        {
+          "key": "vetBills",
+          "label": "Vet bills",
+          "kind": "number",
+          "unit": "£ per year",
+          "options": [],
+          "source": "",
+          "uncertainty": ""
+        }
+      ],
+      "formulas": [
+        {
+          "key": "yearlyCost",
+          "label": "Yearly cost",
+          "expression": "monthlyFoodCost * 12 + vetBills",
+          "unit": "£",
+          "condition": "",
+          "note": "",
+          "reviewed": true
+        }
+      ],
+      "simulations": [],
+      "branches": [
+        {
+          "id": "fx9",
+          "parentId": null,
+          "name": "Today",
+          "description": "The starting reality, as things are now.",
+          "values": {
+            "monthlyFoodCost": 40,
+            "vetBills": null
+          },
+          "possibilities": [],
+          "parentFingerprint": null,
+          "fingerprint": "a011237307e192b57be9d5f2e100b097682e51afe437215b75263508ef3ff515"
+        },
+        {
+          "id": "fx10",
+          "parentId": "fx9",
+          "name": "Large dog",
+          "description": "",
+          "values": {
+            "monthlyFoodCost": 90,
+            "vetBills": null
+          },
+          "possibilities": [
+            {
+              "id": "p1",
+              "text": "Needs a bigger car",
+              "likelihood": "likely",
+              "note": ""
+            }
+          ],
+          "parentFingerprint": "a011237307e192b57be9d5f2e100b097682e51afe437215b75263508ef3ff515",
+          "fingerprint": "fc873a85c057dacdfff27c70e72d5c92e6b11e06be37b53458ed0f33c01e79a6"
+        }
+      ]
+    }
+  ]
+}

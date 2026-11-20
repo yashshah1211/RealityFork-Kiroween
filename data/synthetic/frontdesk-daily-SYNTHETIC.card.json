@@ -1,0 +1,28 @@
+{
+  "name": "Front desk arrivals with a lunchtime peak (SYNTHETIC)",
+  "fileName": "frontdesk-daily-SYNTHETIC.csv",
+  "sha256": "2b5eed3ffe7792a7172e9818f3dcea7ceb9d4d102722e3bebed59f74e972134a",
+  "synthetic": true,
+  "license": "CC0-1.0",
+  "description": "SYNTHETIC data. Not observations of any real service location. 10 days, open 08:00–20:00 local time at a fixed UTC−05:00 offset (no daylight-saving changes). Arrival rate is piecewise constant over six 2-hour blocks; exponential service times with mean 6 minutes.",
+  "generator": "packages/core/src/data/synthetic.ts generateDailyPatternLog (piecewise-constant Poisson by time change)",
+  "generatorParameters": {
+    "seed": 777,
+    "days": 10,
+    "firstDay": "2026-03-02",
+    "utcOffsetMinutes": -300,
+    "openHour": 8,
+    "blockHours": 2,
+    "meanServiceMinutes": 6,
+    "ratesPerHour": "8,14,24,14,10,6"
+  },
+  "observationWindow": {
+    "start": "2026-03-02T08:00:00.000-05:00",
+    "end": "2026-03-11T20:00:00.000-05:00"
+  },
+  "columns": {
+    "arrival_time": "ISO 8601 arrival instant with -05:00 offset",
+    "service_minutes": "service duration in minutes, 2 decimals"
+  },
+  "serviceDurationUnit": "minutes"
+}

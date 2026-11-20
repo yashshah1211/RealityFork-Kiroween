@@ -1,0 +1,50 @@
+{
+  "education": {
+    "interpretation": "Studying for exams that are coming up, comparing a longer daily routine with the current one.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Study two hours daily", "description": "You lengthen your daily study time.", "settings": [] },
+      { "name": "Keep one hour daily", "description": "You carry on with your current routine.", "settings": [] }
+    ],
+    "variables": [
+      { "key": "studyHours", "label": "Study hours per day", "kind": "number", "unit": "hours per day", "options": [], "why": "How long you study each day." },
+      { "key": "weeksToExams", "label": "Weeks until the exams", "kind": "number", "unit": "weeks", "options": [], "why": "How much time is left." },
+      { "key": "revisionStyle", "label": "Revision style", "kind": "category", "unit": "", "options": ["past papers", "notes and summaries", "group study"], "why": "How the study time is used." }
+    ],
+    "questions": ["How many subjects do the exams cover?"],
+    "formulas": [
+      { "label": "Total study hours", "expression": "studyHours * weeksToExams * 7", "unit": "hours", "condition": "", "explanation": "Hours per day times the days in those weeks." }
+    ],
+    "possibilities": [
+      { "branch": "Study two hours daily", "text": "More topics could be covered before the exams", "tone": "upside", "about": ["studyHours"] },
+      { "branch": "Study two hours daily", "text": "Tiredness could build up in the last weeks", "tone": "challenge", "about": ["studyHours"] },
+      { "branch": "Keep one hour daily", "text": "A steadier routine could leave room for other commitments", "tone": "upside", "about": ["studyHours"] },
+      { "branch": "Keep one hour daily", "text": "Some topics could be left for the final days", "tone": "challenge", "about": ["studyHours", "weeksToExams"] }
+    ],
+    "missingEvidence": ["How the marks are split between topics"],
+    "limitations": ["Counts study time only, not how well the time is used."]
+  },
+  "projects": {
+    "interpretation": "A college moving from written exams to team-based projects, compared with keeping written exams.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Team projects replace exams", "description": "Assessment is done through projects completed in teams.", "settings": [{ "variable": "assessment", "value": "team projects" }] },
+      { "name": "Keep written exams", "description": "Assessment stays as written exams.", "settings": [{ "variable": "assessment", "value": "written exams" }] }
+    ],
+    "variables": [
+      { "key": "assessment", "label": "How students are assessed", "kind": "category", "unit": "", "options": ["team projects", "written exams"], "why": "The decision being explored." },
+      { "key": "teamFormation", "label": "How teams are formed", "kind": "category", "unit": "", "options": ["students choose", "teachers assign"], "why": "Who is in each team could change the experience." },
+      { "key": "individualCredit", "label": "Individual contribution is assessed", "kind": "boolean", "unit": "", "options": [], "why": "Fairness depends on how each person's part is seen." }
+    ],
+    "questions": ["How would each student's own contribution be judged?"],
+    "formulas": [],
+    "possibilities": [
+      { "branch": "Team projects replace exams", "text": "Teamwork skills could be practised more", "tone": "upside", "about": ["assessment"] },
+      { "branch": "Team projects replace exams", "text": "Some students could carry more of the work than others", "tone": "challenge", "about": ["teamFormation", "individualCredit"] },
+      { "branch": "Keep written exams", "text": "Results could stay easy to compare across students", "tone": "upside", "about": ["assessment"] },
+      { "branch": "Keep written exams", "text": "Exam stress could remain high for some students", "tone": "challenge", "about": ["assessment"] }
+    ],
+    "missingEvidence": ["How other colleges handled the change"],
+    "limitations": ["Cannot say how students would actually respond."]
+  }
+}

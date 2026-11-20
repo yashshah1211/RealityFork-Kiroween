@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run core tests on save",
+      "trigger": "PostFileSave",
+      "description": "Runs the RealityFork core test suite whenever a TypeScript file under packages/core/src is saved, so simulation regressions are caught immediately.",
+      "matcher": "packages[\\\\/]core[\\\\/]src[\\\\/].*\\.ts$",
+      "action": {
+        "type": "command",
+        "command": "npm test --silent",
+        "timeout": 180
+      }
+    }
+  ]
+}

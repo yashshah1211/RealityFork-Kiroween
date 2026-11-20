@@ -1,0 +1,168 @@
+{
+  "relocation-first": {
+    "interpretation": "Moving to another country to live there, compared with staying. I assumed the country and the way you would earn a living are not decided yet.",
+    "contextQuestions": [
+      { "question": "Which country are you thinking of moving to?", "why": "Rules, costs and language differ a lot between countries.", "examples": ["Germany", "Canada", "Not decided yet"] },
+      { "question": "How would you earn a living there?", "why": "Whether your income continues shapes every path.", "examples": ["Keep my current remote job", "Find a local job", "Not sure yet"] }
+    ],
+    "branches": [
+      { "name": "Move with a job offer", "description": "You move after securing work in the new country.", "settings": [{ "variable": "haveJobOffer", "value": "yes" }] },
+      { "name": "Move and look for work", "description": "You move first and look for work once you arrive.", "settings": [{ "variable": "haveJobOffer", "value": "no" }] },
+      { "name": "Stay where I am", "description": "You stay and keep your current life.", "settings": [] }
+    ],
+    "variables": [
+      { "key": "haveJobOffer", "label": "Job offer before moving", "kind": "boolean", "unit": "", "options": [], "why": "Income from day one changes the risk." },
+      { "key": "monthlyIncome", "label": "Monthly income after the move", "kind": "number", "unit": "per month", "options": [], "why": "Pays for everything else." },
+      { "key": "monthlyCosts", "label": "Monthly living costs", "kind": "number", "unit": "per month", "options": [], "why": "Rent, food and transport in the new place." }
+    ],
+    "questions": ["What would your income be after the move?", "What would living costs be where you move?"],
+    "formulas": [{ "label": "Saved per month", "expression": "monthlyIncome - monthlyCosts", "unit": "per month", "condition": "", "explanation": "Income minus living costs." }],
+    "possibilities": [
+      { "branch": "Move with a job offer", "text": "A fresh start with income from day one", "tone": "upside", "about": ["haveJobOffer"] },
+      { "branch": "Move and look for work", "text": "A period without income while searching", "tone": "challenge", "about": ["haveJobOffer", "monthlyIncome"] },
+      { "branch": "Stay where I am", "text": "Familiar routines and people stay close", "tone": "upside", "about": [] },
+      { "branch": "all", "text": "Missing family and friends", "tone": "challenge", "about": [] }
+    ],
+    "missingEvidence": ["Official rules for living and working in the country you choose", "Typical living costs in the city you choose"],
+    "limitations": ["General draft: the country and how you would earn a living are not known yet."]
+  },
+  "relocation-tailored": {
+    "interpretation": "Moving to Germany while keeping your existing remote job, compared with finding a job in Germany first or staying where you are. I assumed your employer's agreement and the rules for living in Germany still need checking.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Remote relocation to Germany", "description": "You move to Germany and keep working remotely for your current employer.", "settings": [{ "variable": "keepRemoteJob", "value": "yes" }] },
+      { "name": "Find a job in Germany first", "description": "You look for a job based in Germany before you move.", "settings": [{ "variable": "keepRemoteJob", "value": "no" }] },
+      { "name": "Stay and keep working remotely", "description": "You stay where you are and keep your remote job.", "settings": [] }
+    ],
+    "variables": [
+      { "key": "keepRemoteJob", "label": "Keep my current remote job", "kind": "boolean", "unit": "", "options": [], "why": "Decides whether your income continues as it is." },
+      { "key": "employerAllowsAbroad", "label": "Employer agrees to me working from Germany", "kind": "boolean", "unit": "", "options": [], "why": "Working from another country usually needs the employer's agreement." },
+      { "key": "monthlyIncome", "label": "Monthly income", "kind": "number", "unit": "per month", "options": [], "why": "What you would earn in this path." },
+      { "key": "livingCosts", "label": "Living costs in Germany", "kind": "number", "unit": "per month", "options": [], "why": "Rent, food, transport and insurance where you would live." }
+    ],
+    "questions": ["Does your employer agree to you working from Germany?", "What would your living costs be in the city you choose?", "Is working from Germany legally permitted for you?"],
+    "formulas": [{ "label": "Left each month", "expression": "monthlyIncome - livingCosts", "unit": "per month", "condition": "", "explanation": "Income minus living costs." }],
+    "possibilities": [
+      { "branch": "Remote relocation to Germany", "text": "Your employer may not agree to you working from another country", "tone": "challenge", "about": ["employerAllowsAbroad"] },
+      { "branch": "Remote relocation to Germany", "text": "Income continues from the first day", "tone": "upside", "about": ["keepRemoteJob"] },
+      { "branch": "Remote relocation to Germany", "text": "Living costs may differ from what you pay now", "tone": "uncertain", "about": ["livingCosts"] },
+      { "branch": "Find a job in Germany first", "text": "A job search can take a while", "tone": "challenge", "about": [] },
+      { "branch": "Find a job in Germany first", "text": "A local job connects you with people quickly", "tone": "upside", "about": [] },
+      { "branch": "Stay and keep working remotely", "text": "Familiar routines and people stay close", "tone": "upside", "about": [] },
+      { "branch": "all", "text": "Missing family and friends", "tone": "challenge", "about": [] }
+    ],
+    "missingEvidence": ["Your employer's written policy on working from abroad", "Official rules on residence and work in Germany for your nationality"],
+    "limitations": ["Does not cover taxes, social insurance or pensions.", "Rules depend on your nationality, which you have not told us."]
+  },
+  "restaurant-first": {
+    "interpretation": "Opening a restaurant, compared with keeping things as they are. I assumed the place and the budget are still open.",
+    "contextQuestions": [
+      { "question": "Where would the restaurant be?", "why": "Customers, rents and rules depend on the place.", "examples": ["Mumbai", "A small town", "Not decided yet"] },
+      { "question": "Do you know your budget yet?", "why": "It decides which kinds of place are realistic to start with.", "examples": ["Not yet known", "Roughly", "Yes"] }
+    ],
+    "branches": [
+      { "name": "Small café", "description": "A small café you run yourself.", "settings": [{ "variable": "format", "value": "café" }] },
+      { "name": "Full restaurant", "description": "A restaurant with a dining room and staff.", "settings": [{ "variable": "format", "value": "full restaurant" }] },
+      { "name": "Keep my current job", "description": "You keep your job and the idea stays an idea.", "settings": [] }
+    ],
+    "variables": [
+      { "key": "format", "label": "Kind of place", "kind": "category", "unit": "", "options": ["café", "full restaurant"], "why": "Sets the space and staff you need." },
+      { "key": "monthlySales", "label": "Sales per month", "kind": "number", "unit": "per month", "options": [], "why": "What customers would spend." },
+      { "key": "monthlyCosts", "label": "Running costs per month", "kind": "number", "unit": "per month", "options": [], "why": "Rent, staff and ingredients." }
+    ],
+    "questions": ["What sales could you expect each month?", "What would running costs be each month?"],
+    "formulas": [{ "label": "Profit per month", "expression": "monthlySales - monthlyCosts", "unit": "per month", "condition": "", "explanation": "Sales minus running costs." }],
+    "possibilities": [
+      { "branch": "Small café", "text": "Full control over the menu", "tone": "upside", "about": ["format"] },
+      { "branch": "Full restaurant", "text": "Managing staff takes much of your time", "tone": "challenge", "about": ["format"] },
+      { "branch": "Keep my current job", "text": "A steady income continues", "tone": "upside", "about": [] },
+      { "branch": "all", "text": "Local competition changes", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["Rents for suitable premises where you would open"],
+    "limitations": ["General draft: the place and the budget are not known yet."]
+  },
+  "restaurant-tailored": {
+    "interpretation": "Opening a food business in Mumbai while the budget is not yet known: a delivery-only cloud kitchen, a small café or a full-service restaurant. Every amount stays unknown until you enter it.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Cloud kitchen for delivery", "description": "A delivery-only kitchen without a dining room.", "settings": [{ "variable": "format", "value": "cloud kitchen" }] },
+      { "name": "Small café", "description": "A small café with a few tables.", "settings": [{ "variable": "format", "value": "café" }] },
+      { "name": "Full-service restaurant", "description": "A restaurant with a dining room and staff.", "settings": [{ "variable": "format", "value": "full service" }] }
+    ],
+    "variables": [
+      { "key": "format", "label": "Kind of place", "kind": "category", "unit": "", "options": ["cloud kitchen", "café", "full service"], "why": "Sets the space, staff and customers you need." },
+      { "key": "startupBudget", "label": "Start-up budget", "kind": "number", "unit": "", "options": [], "why": "You said it is not yet known; it limits which kind of place is realistic." },
+      { "key": "monthlySales", "label": "Sales per month", "kind": "number", "unit": "per month", "options": [], "why": "What customers would spend." },
+      { "key": "monthlyCosts", "label": "Running costs per month", "kind": "number", "unit": "per month", "options": [], "why": "Rent, staff, ingredients and delivery-app fees." }
+    ],
+    "questions": ["What start-up budget could you put together?", "What rent would a suitable space in Mumbai cost?", "Which licences does a food business in Mumbai need?"],
+    "formulas": [
+      { "label": "Profit per month", "expression": "monthlySales - monthlyCosts", "unit": "per month", "condition": "", "explanation": "Sales minus running costs." },
+      { "label": "Months to earn back the budget", "expression": "startupBudget / (monthlySales - monthlyCosts)", "unit": "months", "condition": "monthlySales > monthlyCosts", "explanation": "Only meaningful when the place makes a profit." }
+    ],
+    "possibilities": [
+      { "branch": "Cloud kitchen for delivery", "text": "Delivery apps can reach many customers in a large city", "tone": "upside", "about": ["format"] },
+      { "branch": "Cloud kitchen for delivery", "text": "Delivery-app fees reduce what you keep from each order", "tone": "challenge", "about": ["monthlyCosts"] },
+      { "branch": "Small café", "text": "A small place lets you test the idea before growing", "tone": "upside", "about": ["startupBudget"] },
+      { "branch": "Small café", "text": "Finding an affordable space with enough passers-by", "tone": "challenge", "about": ["monthlyCosts"] },
+      { "branch": "Full-service restaurant", "text": "Room for bigger groups and events", "tone": "upside", "about": ["format"] },
+      { "branch": "Full-service restaurant", "text": "Hiring and managing staff takes much of your time", "tone": "challenge", "about": [] },
+      { "branch": "all", "text": "Competition from established places nearby", "tone": "uncertain", "about": [] }
+    ],
+    "missingEvidence": ["Rents for suitable spaces in the areas of Mumbai you are considering", "Licences and permits needed for a food business in Mumbai"],
+    "limitations": ["The budget is not yet known, so no path can be checked against it.", "Every number must come from you."]
+  },
+  "university-first": {
+    "interpretation": "Your university replacing written exams with project-based assessment, compared with keeping exams or mixing both. I assumed your role and subject are not known.",
+    "contextQuestions": [
+      { "question": "What is your role at the university?", "why": "Students, lecturers and administrators face different trade-offs.", "examples": ["Student", "Lecturer", "Administrator"] },
+      { "question": "Which subject area is this about?", "why": "Projects fit some subjects more easily than others.", "examples": ["Engineering", "Humanities", "Medicine"] }
+    ],
+    "branches": [
+      { "name": "Projects replace exams", "description": "All written exams become project work.", "settings": [{ "variable": "assessmentMix", "value": "projects only" }] },
+      { "name": "Mix of exams and projects", "description": "Some exams stay and some become projects.", "settings": [{ "variable": "assessmentMix", "value": "mixed" }] },
+      { "name": "Keep written exams", "description": "Assessment stays as it is.", "settings": [{ "variable": "assessmentMix", "value": "exams only" }] }
+    ],
+    "variables": [
+      { "key": "assessmentMix", "label": "How work is assessed", "kind": "category", "unit": "", "options": ["exams only", "mixed", "projects only"], "why": "The main decision being explored." },
+      { "key": "groupProjects", "label": "Projects done in groups", "kind": "boolean", "unit": "", "options": [], "why": "Group work changes fairness and workload." }
+    ],
+    "questions": ["How would projects be marked consistently?", "How much time would projects take each term?"],
+    "formulas": [],
+    "possibilities": [
+      { "branch": "Projects replace exams", "text": "Skills closer to real work", "tone": "upside", "about": ["assessmentMix"] },
+      { "branch": "Projects replace exams", "text": "Heavier workload spread across the term", "tone": "challenge", "about": ["assessmentMix"] },
+      { "branch": "Mix of exams and projects", "text": "Different strengths get a chance to show", "tone": "upside", "about": [] },
+      { "branch": "Keep written exams", "text": "Familiar routine for everyone", "tone": "upside", "about": [] },
+      { "branch": "all", "text": "Concerns about fairness in marking", "tone": "uncertain", "about": ["groupProjects"] }
+    ],
+    "missingEvidence": ["Experience from other departments that changed assessment"],
+    "limitations": ["General draft: your role and subject are not known."]
+  },
+  "university-tailored": {
+    "interpretation": "As a student: what replacing written exams with project-based assessment could mean for you, compared with a mix or keeping exams.",
+    "contextQuestions": [],
+    "branches": [
+      { "name": "Projects replace exams", "description": "Your modules are assessed through projects.", "settings": [{ "variable": "assessmentMix", "value": "projects only" }] },
+      { "name": "Mix of exams and projects", "description": "Some modules keep exams and others use projects.", "settings": [{ "variable": "assessmentMix", "value": "mixed" }] },
+      { "name": "Keep written exams", "description": "Your assessment stays as it is.", "settings": [{ "variable": "assessmentMix", "value": "exams only" }] }
+    ],
+    "variables": [
+      { "key": "assessmentMix", "label": "How your work is assessed", "kind": "category", "unit": "", "options": ["exams only", "mixed", "projects only"], "why": "The main decision being explored." },
+      { "key": "groupProjects", "label": "Projects done in groups", "kind": "boolean", "unit": "", "options": [], "why": "Group work changes how fair marking feels." },
+      { "key": "industryPartners", "label": "Projects with outside partners", "kind": "boolean", "unit": "", "options": [], "why": "Real clients can make projects more relevant." }
+    ],
+    "questions": ["How would your projects be marked?", "How would group work be shared fairly?"],
+    "formulas": [],
+    "possibilities": [
+      { "branch": "Projects replace exams", "text": "Less pressure from single high-stakes exams", "tone": "upside", "about": ["assessmentMix"] },
+      { "branch": "Projects replace exams", "text": "Deadlines across the term may overlap", "tone": "challenge", "about": ["assessmentMix"] },
+      { "branch": "Projects replace exams", "text": "Work you can show to future employers", "tone": "upside", "about": ["industryPartners"] },
+      { "branch": "Mix of exams and projects", "text": "Different strengths get a chance to show", "tone": "upside", "about": [] },
+      { "branch": "Keep written exams", "text": "A familiar way to prepare", "tone": "upside", "about": [] },
+      { "branch": "all", "text": "Group members may contribute unevenly", "tone": "challenge", "about": ["groupProjects"] }
+    ],
+    "missingEvidence": ["How other students found project-based modules"],
+    "limitations": ["Based on your answer that you are a student; lecturers would see different trade-offs."]
+  }
+}

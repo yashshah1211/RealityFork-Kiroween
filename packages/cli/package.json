@@ -1,0 +1,10 @@
+{
+  "name": "@realityfork/cli",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@realityfork/core": "0.1.0"
+  }
+}

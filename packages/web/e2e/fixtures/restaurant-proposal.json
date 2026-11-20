@@ -1,0 +1,173 @@
+{
+  "interpretation": "You are considering opening your own restaurant. I assumed a small independent place and that you would compare opening it with keeping your current situation.",
+  "contextQuestions": [],
+  "branches": [
+    {
+      "name": "Small café, owner-run",
+      "description": "A small café where you do most of the work yourself.",
+      "settings": [
+        {
+          "variable": "format",
+          "value": "café"
+        },
+        {
+          "variable": "hireStaff",
+          "value": "no"
+        }
+      ]
+    },
+    {
+      "name": "Full restaurant with staff",
+      "description": "A sit-down restaurant with hired staff.",
+      "settings": [
+        {
+          "variable": "format",
+          "value": "full restaurant"
+        },
+        {
+          "variable": "hireStaff",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "name": "Keep my current job",
+      "description": "Do not open a restaurant for now.",
+      "settings": []
+    }
+  ],
+  "variables": [
+    {
+      "key": "format",
+      "label": "Type of place",
+      "kind": "category",
+      "unit": "",
+      "options": [
+        "café",
+        "full restaurant"
+      ],
+      "why": "The format changes almost every cost and the workload."
+    },
+    {
+      "key": "hireStaff",
+      "label": "Hire staff",
+      "kind": "boolean",
+      "unit": "",
+      "options": [],
+      "why": "Staff costs money but frees your time."
+    },
+    {
+      "key": "monthlyRevenue",
+      "label": "Sales per month",
+      "kind": "number",
+      "unit": "per month",
+      "options": [],
+      "why": "Everything depends on how much you sell."
+    },
+    {
+      "key": "monthlyCosts",
+      "label": "Running costs per month",
+      "kind": "number",
+      "unit": "per month",
+      "options": [],
+      "why": "Rent, ingredients, wages and bills."
+    },
+    {
+      "key": "startupCost",
+      "label": "Start-up cost",
+      "kind": "number",
+      "unit": "one-off",
+      "options": [],
+      "why": "Fit-out, equipment and licences before opening."
+    },
+    {
+      "key": "hoursPerWeek",
+      "label": "Your working hours",
+      "kind": "number",
+      "unit": "hours per week",
+      "options": [],
+      "why": "Running a restaurant can take most of your time."
+    }
+  ],
+  "questions": [
+    "How much could you sell per month in your area?",
+    "What would rent and ingredients cost?",
+    "How much money can you put in before opening?"
+  ],
+  "formulas": [
+    {
+      "label": "Profit per month",
+      "expression": "monthlyRevenue - monthlyCosts",
+      "unit": "per month",
+      "condition": "",
+      "explanation": "Sales minus running costs."
+    },
+    {
+      "label": "Months to earn back the start-up cost",
+      "expression": "startupCost / (monthlyRevenue - monthlyCosts)",
+      "unit": "months",
+      "condition": "monthlyRevenue > monthlyCosts",
+      "explanation": "Only meaningful if there is a monthly profit."
+    }
+  ],
+  "possibilities": [
+    {
+      "branch": "Small café, owner-run",
+      "text": "Full control over the menu and atmosphere",
+      "tone": "upside",
+      "about": [
+        "format"
+      ]
+    },
+    {
+      "branch": "Small café, owner-run",
+      "text": "Long hours leave little time for family",
+      "tone": "challenge",
+      "about": [
+        "hireStaff",
+        "hoursPerWeek"
+      ]
+    },
+    {
+      "branch": "Full restaurant with staff",
+      "text": "Room to grow and take bigger bookings",
+      "tone": "upside",
+      "about": [
+        "format"
+      ]
+    },
+    {
+      "branch": "Full restaurant with staff",
+      "text": "Managing people becomes a large part of the job",
+      "tone": "challenge",
+      "about": [
+        "hireStaff"
+      ]
+    },
+    {
+      "branch": "Keep my current job",
+      "text": "A steady income continues",
+      "tone": "upside",
+      "about": []
+    },
+    {
+      "branch": "Keep my current job",
+      "text": "The idea stays untested",
+      "tone": "challenge",
+      "about": []
+    },
+    {
+      "branch": "all",
+      "text": "Local competition changes",
+      "tone": "uncertain",
+      "about": []
+    }
+  ],
+  "missingEvidence": [
+    "Rents for suitable premises in your area",
+    "Typical spending by customers nearby"
+  ],
+  "limitations": [
+    "This draft cannot know your local market; every number must come from you."
+  ]
+}

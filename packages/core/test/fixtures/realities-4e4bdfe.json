@@ -1,0 +1,364 @@
+{
+  "schema": "realityfork.realities/1",
+  "realities": [
+    {
+      "schema": "realityfork.reality/1",
+      "id": "id1",
+      "question": "What if I moved to another country?",
+      "description": "Moving to Germany while keeping your existing remote job, compared with finding a job in Germany first or staying where you are. I assumed your employer's agreement and the rules for living in Germany still need checking.",
+      "questions": [
+        "Does your employer agree to you working from Germany?",
+        "What would your living costs be in the city you choose?",
+        "Is working from Germany legally permitted for you?"
+      ],
+      "variables": [
+        {
+          "key": "keepRemoteJob",
+          "label": "Keep my current remote job",
+          "kind": "boolean",
+          "unit": "",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Decides whether your income continues as it is."
+        },
+        {
+          "key": "employerAllowsAbroad",
+          "label": "Employer agrees to me working from Germany",
+          "kind": "boolean",
+          "unit": "",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Working from another country usually needs the employer's agreement."
+        },
+        {
+          "key": "monthlyIncome",
+          "label": "Monthly income",
+          "kind": "number",
+          "unit": "per month",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "What you would earn in this path."
+        },
+        {
+          "key": "livingCosts",
+          "label": "Living costs in Germany",
+          "kind": "number",
+          "unit": "per month",
+          "options": [],
+          "source": "Not yet known: enter your own value.",
+          "uncertainty": "Rent, food, transport and insurance where you would live."
+        }
+      ],
+      "formulas": [
+        {
+          "key": "leftEachMonth",
+          "label": "Left each month",
+          "expression": "monthlyIncome - livingCosts",
+          "unit": "per month",
+          "condition": "",
+          "note": "Income minus living costs.",
+          "reviewed": false
+        }
+      ],
+      "simulations": [],
+      "origin": {
+        "kind": "ai",
+        "model": "openai/gpt-oss-120b",
+        "acceptedAt": "2026-11-07T10:00:00.000Z",
+        "evidence": [
+          "Your employer's written policy on working from abroad",
+          "Official rules on residence and work in Germany for your nationality"
+        ],
+        "limitations": [
+          "Does not cover taxes, social insurance or pensions.",
+          "Rules depend on your nationality, which you have not told us."
+        ]
+      },
+      "context": [
+        {
+          "id": "context-1",
+          "question": "Which country are you thinking of moving to?",
+          "answer": "Germany"
+        },
+        {
+          "id": "context-2",
+          "question": "How would you earn a living there?",
+          "answer": "existing remote job"
+        }
+      ],
+      "branches": [
+        {
+          "id": "id2",
+          "parentId": null,
+          "name": "As things are",
+          "description": "The starting reality, as things are now.",
+          "values": {
+            "keepRemoteJob": null,
+            "employerAllowsAbroad": null,
+            "monthlyIncome": null,
+            "livingCosts": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Missing family and friends",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              }
+            }
+          ],
+          "parentFingerprint": null,
+          "fingerprint": "5607b7bc44a34a11a406c3f8e66ae08a4542f4436cf12a48f98dec86a018daa5"
+        },
+        {
+          "id": "id4",
+          "parentId": "id2",
+          "name": "Remote relocation to Germany",
+          "description": "You move to Germany and keep working remotely for your current employer.",
+          "values": {
+            "keepRemoteJob": true,
+            "employerAllowsAbroad": true,
+            "monthlyIncome": null,
+            "livingCosts": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Missing family and friends",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job",
+                  "f1=My employer allows me to work remotely"
+                ]
+              }
+            },
+            {
+              "id": "id5",
+              "text": "Your employer may not agree to you working from another country",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge",
+              "about": [
+                "employerAllowsAbroad"
+              ],
+              "basis": {
+                "values": {
+                  "employerAllowsAbroad": null
+                },
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              },
+              "setAside": "You told us your employer permits remote work."
+            },
+            {
+              "id": "id6",
+              "text": "Income continues from the first day",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside",
+              "about": [
+                "keepRemoteJob"
+              ],
+              "basis": {
+                "values": {
+                  "keepRemoteJob": true
+                },
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job",
+                  "f1=My employer allows me to work remotely"
+                ]
+              }
+            },
+            {
+              "id": "id7",
+              "text": "Living costs may differ from what you pay now",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "about": [
+                "livingCosts"
+              ],
+              "basis": {
+                "values": {
+                  "livingCosts": null
+                },
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job",
+                  "f1=My employer allows me to work remotely"
+                ]
+              }
+            },
+            {
+              "id": "id13",
+              "text": "Time-zone differences may shift your working hours",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI after you told RealityFork something new; speculative.",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job",
+                  "f1=My employer allows me to work remotely"
+                ]
+              }
+            }
+          ],
+          "parentFingerprint": "5607b7bc44a34a11a406c3f8e66ae08a4542f4436cf12a48f98dec86a018daa5",
+          "sources": {
+            "keepRemoteJob": "ai",
+            "employerAllowsAbroad": "user"
+          },
+          "facts": [
+            {
+              "id": "f1",
+              "question": "",
+              "answer": "My employer allows me to work remotely"
+            }
+          ],
+          "revisits": [
+            {
+              "model": "openai/gpt-oss-120b",
+              "at": "2026-11-07T11:00:00.000Z",
+              "cause": "The user told us: My employer allows me to work remotely. Now set in this path: Employer agrees to me working from Germany: yes.",
+              "summary": "Because your employer permits remote work, this path now needs a closer look at work authorization and living costs.",
+              "questions": [
+                "Is working from Germany legally permitted for you?"
+              ],
+              "evidence": []
+            }
+          ],
+          "fingerprint": "51ba7a3386d2318cd5a79fd3fc0138ceb376df5b5992fc5b6970a3687ed56f8c"
+        },
+        {
+          "id": "id8",
+          "parentId": "id2",
+          "name": "Find a job in Germany first",
+          "description": "You look for a job based in Germany before you move.",
+          "values": {
+            "keepRemoteJob": false,
+            "employerAllowsAbroad": null,
+            "monthlyIncome": null,
+            "livingCosts": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Missing family and friends",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              }
+            },
+            {
+              "id": "id9",
+              "text": "A job search can take a while",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              }
+            },
+            {
+              "id": "id10",
+              "text": "A local job connects you with people quickly",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              }
+            }
+          ],
+          "parentFingerprint": "5607b7bc44a34a11a406c3f8e66ae08a4542f4436cf12a48f98dec86a018daa5",
+          "sources": {
+            "keepRemoteJob": "ai"
+          },
+          "fingerprint": "5518d0e668dba254eb6a72ae1738834fc08ecded1b1a3e30f583418f441561b8"
+        },
+        {
+          "id": "id11",
+          "parentId": "id2",
+          "name": "Stay and keep working remotely",
+          "description": "You stay where you are and keep your remote job.",
+          "values": {
+            "keepRemoteJob": null,
+            "employerAllowsAbroad": null,
+            "monthlyIncome": null,
+            "livingCosts": null
+          },
+          "possibilities": [
+            {
+              "id": "id3",
+              "text": "Missing family and friends",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "challenge",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              }
+            },
+            {
+              "id": "id12",
+              "text": "Familiar routines and people stay close",
+              "likelihood": "not-judged",
+              "note": "Suggested by the AI planner; speculative.",
+              "tone": "upside",
+              "about": [],
+              "basis": {
+                "values": {},
+                "known": [
+                  "context-1=Germany",
+                  "context-2=existing remote job"
+                ]
+              }
+            }
+          ],
+          "parentFingerprint": "5607b7bc44a34a11a406c3f8e66ae08a4542f4436cf12a48f98dec86a018daa5",
+          "sources": {},
+          "fingerprint": "f9afeaaa092303ec5d30eed4492ec5c9af4bb575431136903e315b62a0a271cb"
+        }
+      ]
+    }
+  ]
+}

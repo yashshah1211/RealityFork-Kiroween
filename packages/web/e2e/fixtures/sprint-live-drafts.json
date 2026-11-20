@@ -1,0 +1,527 @@
+{
+  "_about": "Recorded LIVE replies of POST /api/plan (GroqCloud, openai/gpt-oss-120b) on 2026-11-13, one request per question, during the product sprint. Kept exactly as the server returned them (proposal, model, warnings) so tests replay real model output; no key, prompt or personal data. Not predictions.",
+  "abroad": {
+    "question": "What if I moved to another country to pursue better career opportunities?",
+    "model": "openai/gpt-oss-120b",
+    "warnings": [
+      "Left out 1 suggestion that was a research task, not a possible consequence. Things to find out stay in the questions.",
+      "Left out speculative claims that failed checks."
+    ],
+    "proposal": {
+      "interpretation": "You are considering relocating to a different country to improve your career prospects. I assumed you are evaluating whether to stay where you are or move abroad and how you would work there.",
+      "contextQuestions": [],
+      "branches": [
+        {
+          "name": "Stay where you are",
+          "description": "Remain in your current country and seek career growth locally.",
+          "settings": []
+        },
+        {
+          "name": "Move and work locally",
+          "description": "Relocate to a new country and take a job that requires you to be physically present.",
+          "settings": [
+            {
+              "variable": "targetCountry",
+              "value": "newCountry"
+            },
+            {
+              "variable": "remoteWorkPossible",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "name": "Move and work remotely",
+          "description": "Relocate but keep a job that can be done from anywhere.",
+          "settings": [
+            {
+              "variable": "targetCountry",
+              "value": "newCountry"
+            },
+            {
+              "variable": "remoteWorkPossible",
+              "value": "yes"
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "targetCountry",
+          "kind": "category",
+          "label": "Country you might move to",
+          "unit": "",
+          "options": [
+            "newCountry",
+            "currentCountry"
+          ],
+          "why": "The location influences work permits, cost of living and job market."
+        },
+        {
+          "key": "careerField",
+          "kind": "category",
+          "label": "Industry or profession",
+          "unit": "",
+          "options": [
+            "tech",
+            "finance",
+            "healthcare",
+            "education",
+            "other"
+          ],
+          "why": "Different fields have varying demand across countries."
+        },
+        {
+          "key": "remoteWorkPossible",
+          "kind": "boolean",
+          "label": "Can you work remotely in your role",
+          "unit": "",
+          "options": [],
+          "why": "Remote eligibility changes the need for a local employer."
+        },
+        {
+          "key": "visaRequirement",
+          "kind": "boolean",
+          "label": "Is a work visa needed",
+          "unit": "",
+          "options": [],
+          "why": "Visa rules affect feasibility and timeline of moving."
+        }
+      ],
+      "questions": [
+        "Which industry or profession are you targeting?",
+        "Do you currently have a job that can be performed remotely?",
+        "What are the main factors you consider important in a new country (e.g., language, culture, cost of living)?",
+        "Do you have any existing work permits or visas for other countries?",
+        "Are there specific countries you are already interested in?"
+      ],
+      "formulas": [],
+      "possibilities": [
+        {
+          "branch": "Stay where you are",
+          "tone": "upside",
+          "text": "You keep your existing network and avoid the hassle of immigration.",
+          "about": [
+            "visaRequirement"
+          ]
+        },
+        {
+          "branch": "Stay where you are",
+          "tone": "challenge",
+          "text": "Local job market may limit the speed or level of career advancement you hope for.",
+          "about": [
+            "careerField"
+          ]
+        },
+        {
+          "branch": "Move and work locally",
+          "tone": "upside",
+          "text": "Being on‑site can open faster promotions and stronger professional connections.",
+          "about": [
+            "targetCountry",
+            "careerField"
+          ]
+        }
+      ],
+      "missingEvidence": [
+        "Information on work‑visa eligibility for your target country",
+        "Demand and salary data for your career field in the new location",
+        "Company policies on remote work for employees abroad",
+        "Cost‑of‑living comparison between your current and potential countries"
+      ],
+      "limitations": [
+        "The analysis does not account for personal relationships or family considerations.",
+        "It assumes you have the legal right to work in the target country if a visa is obtained.",
+        "Economic or political changes in either country could alter outcomes."
+      ]
+    }
+  },
+  "cafe": {
+    "question": "What if I opened a small café instead of continuing my current job?",
+    "model": "openai/gpt-oss-120b",
+    "warnings": [],
+    "proposal": {
+      "interpretation": "You are considering whether to start a small café instead of keeping your current employment. I assumed the comparison is about your personal finances and time commitment.",
+      "contextQuestions": [],
+      "branches": [
+        {
+          "name": "Open Café",
+          "description": "Leave your current job and launch the café full‑time.",
+          "settings": [
+            {
+              "variable": "leavingJob",
+              "value": "yes"
+            },
+            {
+              "variable": "cafeOperation",
+              "value": "fullTime"
+            }
+          ]
+        },
+        {
+          "name": "Stay at Job",
+          "description": "Continue your current employment and do not open a café.",
+          "settings": [
+            {
+              "variable": "leavingJob",
+              "value": "no"
+            },
+            {
+              "variable": "cafeOperation",
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "name": "Part‑time Café",
+          "description": "Keep your job and run the café only evenings or weekends.",
+          "settings": [
+            {
+              "variable": "leavingJob",
+              "value": "no"
+            },
+            {
+              "variable": "cafeOperation",
+              "value": "partTime"
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "jobSalary",
+          "kind": "number",
+          "label": "Current job salary",
+          "unit": "",
+          "options": [],
+          "why": "Base income if you stay employed"
+        },
+        {
+          "key": "cafeRevenue",
+          "kind": "number",
+          "label": "Café monthly revenue",
+          "unit": "",
+          "options": [],
+          "why": "Potential earnings from the café"
+        },
+        {
+          "key": "cafeCosts",
+          "kind": "number",
+          "label": "Café monthly operating costs",
+          "unit": "",
+          "options": [],
+          "why": "Expenses needed to keep the café running"
+        },
+        {
+          "key": "hoursPerWeekJob",
+          "kind": "number",
+          "label": "Hours worked per week at current job",
+          "unit": "hours per week",
+          "options": [],
+          "why": "Time commitment of staying employed"
+        },
+        {
+          "key": "hoursPerWeekCafe",
+          "kind": "number",
+          "label": "Hours spent on café per week",
+          "unit": "hours per week",
+          "options": [],
+          "why": "Time you would need to manage the café"
+        },
+        {
+          "key": "locationType",
+          "kind": "category",
+          "label": "Café location setting",
+          "unit": "",
+          "options": [
+            "urban",
+            "suburban",
+            "rural"
+          ],
+          "why": "Location influences foot traffic and costs"
+        },
+        {
+          "key": "licensingNeeded",
+          "kind": "boolean",
+          "label": "Food‑service license required",
+          "unit": "",
+          "options": [],
+          "why": "Legal requirement that may affect start‑up effort"
+        },
+        {
+          "key": "leavingJob",
+          "kind": "boolean",
+          "label": "Leaving current job",
+          "unit": "",
+          "options": [],
+          "why": "Decision point for each branch"
+        },
+        {
+          "key": "cafeOperation",
+          "kind": "category",
+          "label": "Café operating mode",
+          "unit": "",
+          "options": [
+            "none",
+            "partTime",
+            "fullTime"
+          ],
+          "why": "Defines how intensively the café is run"
+        }
+      ],
+      "questions": [
+        "What is your current monthly net salary from your job?",
+        "What monthly revenue do you expect the café to generate?",
+        "What monthly operating costs (rent, supplies, staff, etc.) do you anticipate for the café?",
+        "How many hours per week do you currently work at your job?",
+        "How many hours per week could you realistically devote to the café in a part‑time arrangement?"
+      ],
+      "formulas": [
+        {
+          "label": "Net café profit per month",
+          "expression": "cafeRevenue - cafeCosts",
+          "unit": "",
+          "condition": "",
+          "explanation": "Revenue minus operating costs gives the café’s monthly profit"
+        },
+        {
+          "label": "Total weekly time commitment",
+          "expression": "hoursPerWeekJob + hoursPerWeekCafe",
+          "unit": "hours per week",
+          "condition": "",
+          "explanation": "Sum of job and café work hours shows overall workload"
+        }
+      ],
+      "possibilities": [
+        {
+          "branch": "Open Café",
+          "tone": "upside",
+          "text": "You could earn more than your current salary if the café becomes popular.",
+          "about": [
+            "cafeRevenue",
+            "cafeCosts"
+          ]
+        },
+        {
+          "branch": "Open Café",
+          "tone": "challenge",
+          "text": "Initial costs and the need for a food‑service license may strain cash flow.",
+          "about": [
+            "cafeCosts",
+            "licensingNeeded"
+          ]
+        },
+        {
+          "branch": "Stay at Job",
+          "tone": "upside",
+          "text": "Your income remains stable and you avoid the risks of starting a business.",
+          "about": [
+            "jobSalary"
+          ]
+        },
+        {
+          "branch": "Stay at Job",
+          "tone": "challenge",
+          "text": "You may miss out on a potentially rewarding entrepreneurial experience.",
+          "about": [
+            "jobSalary"
+          ]
+        },
+        {
+          "branch": "Part‑time Café",
+          "tone": "upside",
+          "text": "You keep a steady paycheck while testing the café concept with lower risk.",
+          "about": [
+            "cafeRevenue",
+            "jobSalary"
+          ]
+        },
+        {
+          "branch": "Part‑time Café",
+          "tone": "challenge",
+          "text": "Balancing two roles could lead to long work weeks and fatigue.",
+          "about": [
+            "hoursPerWeekJob",
+            "hoursPerWeekCafe"
+          ]
+        },
+        {
+          "branch": "all",
+          "tone": "uncertain",
+          "text": "The success of the café will depend heavily on location and local demand.",
+          "about": [
+            "locationType"
+          ]
+        }
+      ],
+      "missingEvidence": [
+        "Local market demand for a café in your chosen area",
+        "Exact cost of obtaining the required food‑service license",
+        "Projected foot traffic for each location type",
+        "Availability of reliable suppliers and their pricing"
+      ],
+      "limitations": [
+        "Financial outcomes depend on many variables not captured here, such as seasonal fluctuations.",
+        "Time estimates assume you can maintain consistent weekly hours.",
+        "Regulatory requirements may vary beyond the simple license flag."
+      ]
+    }
+  },
+  "selfStudy": {
+    "question": "What if I chose self-study instead of attending university?",
+    "model": "openai/gpt-oss-120b",
+    "warnings": [
+      "Left out speculative claims that failed checks."
+    ],
+    "proposal": {
+      "interpretation": "You are wondering how your life might differ if you decide to learn on your own rather than enroll in a university program. I assumed you are comparing the overall impact on knowledge, costs, and future opportunities.",
+      "contextQuestions": [],
+      "branches": [
+        {
+          "name": "Self‑study",
+          "description": "You rely on books, online courses, and personal projects to acquire the skills you need.",
+          "settings": [
+            {
+              "variable": "learningMode",
+              "value": "selfStudy"
+            }
+          ]
+        },
+        {
+          "name": "University",
+          "description": "You enroll in a traditional campus program and follow the prescribed curriculum.",
+          "settings": [
+            {
+              "variable": "learningMode",
+              "value": "university"
+            }
+          ]
+        },
+        {
+          "name": "Hybrid",
+          "description": "You combine a part‑time university enrollment with extensive self‑directed learning.",
+          "settings": [
+            {
+              "variable": "learningMode",
+              "value": "hybrid"
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "learningMode",
+          "kind": "category",
+          "label": "Learning approach",
+          "options": [
+            "selfStudy",
+            "university",
+            "hybrid"
+          ],
+          "unit": "",
+          "why": "Determines the overall structure and resources you will use."
+        },
+        {
+          "key": "studyHoursPerWeek",
+          "kind": "number",
+          "label": "Hours devoted to study each week",
+          "options": [],
+          "unit": "hours per week",
+          "why": "Affects depth of knowledge and speed of progress."
+        },
+        {
+          "key": "annualCost",
+          "kind": "number",
+          "label": "Total cost per year",
+          "options": [],
+          "unit": "",
+          "why": "Financial commitment influences feasibility."
+        },
+        {
+          "key": "careerGoal",
+          "kind": "category",
+          "label": "Desired career field",
+          "options": [
+            "tech",
+            "arts",
+            "science",
+            "business",
+            "other"
+          ],
+          "unit": "",
+          "why": "Different fields value credentials and portfolios differently."
+        },
+        {
+          "key": "networkAccess",
+          "kind": "boolean",
+          "label": "Access to professional network through institution",
+          "options": [],
+          "unit": "",
+          "why": "Networking can open job opportunities and mentorship."
+        }
+      ],
+      "questions": [
+        "What field or industry do you aim to work in after learning?",
+        "How many hours per week can you realistically dedicate to studying?",
+        "Do you have a budget limit for education expenses?",
+        "How important is a formal credential for your intended career?",
+        "Do you value access to a campus‑based professional network?"
+      ],
+      "formulas": [],
+      "possibilities": [
+        {
+          "branch": "university",
+          "tone": "upside",
+          "text": "A recognized degree can open doors in fields that require accredited qualifications.",
+          "about": [
+            "careerGoal"
+          ]
+        },
+        {
+          "branch": "university",
+          "tone": "challenge",
+          "text": "High tuition and fixed schedules may limit flexibility and increase financial pressure.",
+          "about": [
+            "annualCost"
+          ]
+        },
+        {
+          "branch": "hybrid",
+          "tone": "upside",
+          "text": "You gain a credential while still customizing much of your learning.",
+          "about": [
+            "learningMode"
+          ]
+        },
+        {
+          "branch": "hybrid",
+          "tone": "challenge",
+          "text": "Balancing coursework with self‑directed projects can be demanding on time and energy.",
+          "about": [
+            "studyHoursPerWeek"
+          ]
+        },
+        {
+          "branch": "all",
+          "tone": "uncertain",
+          "text": "Your ability to build a strong professional network will depend on how actively you seek mentorship and connections, regardless of the path.",
+          "about": [
+            "networkAccess"
+          ]
+        }
+      ],
+      "missingEvidence": [
+        "Information on employer expectations for credentials in your target industry",
+        "Cost breakdown of tuition, fees, and living expenses for university options",
+        "Availability of high‑quality self‑study resources for your chosen field",
+        "Opportunities for internships or practical experience in each path"
+      ],
+      "limitations": [
+        "Outcomes depend heavily on personal discipline and motivation",
+        "External factors such as job market conditions are not modeled",
+        "The analysis does not account for scholarships, loans, or financial aid",
+        "Networking benefits vary widely between institutions and individual effort"
+      ]
+    }
+  }
+}

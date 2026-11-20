@@ -1,0 +1,59 @@
+{
+  "_about": "SANITIZED RECONSTRUCTION, not a verbatim model reply. It stands for the first live Groq test of the release candidate (question below): three futures named exactly as the live draft named them (Launch and stay employed, Launch and quit job, Delay launch), each deciding the same two things by choices (keep or quit the current job; launch now or later), and number assumptions the user fills in. All other wording is written for this fixture. No personal data. It passes validateProposal, so a real reply of this shape is accepted the same way. Used by e2e/live-gaming.spec.ts and the unit tests; no request reaches a provider.",
+  "question": "What if I started a small gaming company in Mumbai with ₹5 lakh in savings while keeping my current job initially?",
+  "proposal": {
+    "interpretation": "You want to start a small game studio in Mumbai, paid for from your savings, and to keep your job at first. I compared launching while employed, launching and leaving the job, and waiting before launching.",
+    "contextQuestions": [],
+    "branches": [
+      {
+        "name": "Launch and stay employed",
+        "description": "Start the studio now and keep your current job while it grows.",
+        "settings": [
+          { "variable": "currentJob", "value": "Keep my job" },
+          { "variable": "launchTiming", "value": "Now" }
+        ]
+      },
+      {
+        "name": "Launch and quit job",
+        "description": "Start the studio now and leave your job to work on it full-time.",
+        "settings": [
+          { "variable": "currentJob", "value": "Quit my job" },
+          { "variable": "launchTiming", "value": "Now" }
+        ]
+      },
+      {
+        "name": "Delay launch",
+        "description": "Keep your job and save more before starting the studio.",
+        "settings": [
+          { "variable": "currentJob", "value": "Keep my job" },
+          { "variable": "launchTiming", "value": "In 6 months" }
+        ]
+      }
+    ],
+    "variables": [
+      { "key": "currentJob", "label": "Current job", "kind": "category", "unit": "", "options": ["Keep my job", "Quit my job"], "why": "Decides how much time the studio gets and whether a salary keeps coming in." },
+      { "key": "launchTiming", "label": "When the studio launches", "kind": "category", "unit": "", "options": ["Now", "In 6 months"], "why": "Waiting gives time to save and plan; launching now starts the work sooner." },
+      { "key": "savings", "label": "Savings available", "kind": "number", "unit": "₹", "options": [], "why": "How long the studio can run before it earns anything." },
+      { "key": "monthlyCosts", "label": "Monthly studio costs", "kind": "number", "unit": "₹ per month", "options": [], "why": "Software, hardware, rent and other running costs." },
+      { "key": "monthlySalary", "label": "Monthly salary from the job", "kind": "number", "unit": "₹ per month", "options": [], "why": "Income that continues while you keep the job." }
+    ],
+    "questions": [
+      "How many hours a week could you give the studio while you are employed?",
+      "Does your employment contract allow side projects?",
+      "What would the first game be, and how long would it take to make?"
+    ],
+    "formulas": [
+      { "label": "Months the savings last", "expression": "savings / monthlyCosts", "unit": "months", "condition": "monthlyCosts > 0", "explanation": "Only counts savings against studio costs; any income from games or the job is left out." }
+    ],
+    "possibilities": [
+      { "branch": "Launch and stay employed", "text": "Less time for the studio while the job continues", "tone": "challenge", "about": ["currentJob"] },
+      { "branch": "Launch and stay employed", "text": "A steady income while the first game takes shape", "tone": "upside", "about": ["currentJob"] },
+      { "branch": "Launch and quit job", "text": "Full days to work on the first game", "tone": "upside", "about": ["currentJob"] },
+      { "branch": "Launch and quit job", "text": "Savings may run down before the game earns anything", "tone": "challenge", "about": ["savings", "monthlyCosts"] },
+      { "branch": "Delay launch", "text": "More time to plan and to save before starting", "tone": "upside", "about": ["launchTiming"] },
+      { "branch": "Delay launch", "text": "The idea may lose momentum while you wait", "tone": "uncertain", "about": ["launchTiming"] }
+    ],
+    "missingEvidence": ["Your monthly studio costs", "What your employment contract says about side projects"],
+    "limitations": ["Game sales, platform fees and taxes are not modelled."]
+  }
+}
