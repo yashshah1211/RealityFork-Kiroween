@@ -1,7 +1,7 @@
 import { lazy, Suspense, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type RefObject } from "react";
 import { EXAMPLES, MAX_QUESTION_LENGTH, type Reality, type RealityTemplate } from "@realityfork/core";
 import { asWhatIf, savedMaps, type RealityStore } from "./store";
-import { atlasRequested, webglAvailable } from "../atlas/flag";
+import { webglAvailable } from "../atlas/flag";
 import { resolveScenery, type Family } from "../atlas/environment/resolve";
 import { UNIVERSES } from "../atlas/environment/universes";
 import { useNav } from "./SavedNote";
@@ -82,8 +82,8 @@ export function Imagine({ store }: { store: RealityStore }) {
   const hero = useRef<HTMLElement>(null);
   const main = useRef<HTMLElement>(null);
   const band = useRef<HTMLDivElement>(null);
-  // Without the 3D world (no flag, no WebGL, or it failed) the page is laid out tighter: the question comes first.
-  const [want] = useState(() => typeof window !== "undefined" && atlasRequested(window.location.search) && webglAvailable());
+  // The landing uses the 3D world whenever it can render it. The flat layout keeps the question first if it cannot.
+  const [want] = useState(() => typeof window !== "undefined" && webglAvailable());
   const [failed, setFailed] = useState(false);
   const [discoveries, setDiscoveries] = useState(0);
   const live = want && !failed;
